@@ -9,7 +9,7 @@ const Form = ({setInputText, inputText, todos, setTodos, setStatus}) => {
         e.preventDefault()
         setTodos([
             ...todos, 
-            {text: inputText, completed: false, id: Date.now()}
+            {title: inputText, completed: false, id: todos.length + 1 }
         ])
         setInputText('')
     }
