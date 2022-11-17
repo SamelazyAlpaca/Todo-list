@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import './App.css';
 import Form from './components/Form';
@@ -7,17 +7,14 @@ import Loader from './components/Loader';
 import Pagination from './components/Pagination';
 
 function App() {
-  const [inputText, setInputText] = useState('');
-  const [todos, setTodos] = useState([]);
-  const [status, setStatus] = useState('all');
-  const [filteredTodos, setFilteredTodos] = useState([]);
+  const [inputText, setInputText] = useState('')
+  const [todos, setTodos] = useState([])
+  const [status, setStatus] = useState('all')
+  const [filteredTodos, setFilteredTodos] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [todosPerPage] = useState(10)
-
-  useEffect(() => {
-    getTodos()
-  }, []);
+  const todosPerPage = 10
+  const [selectedSort, setSelectedSort] = useState('')
 
   const getTodos = async () => {
     setIsLoading(true)
@@ -39,14 +36,8 @@ function App() {
   const paginateHandler = pageNumber => setCurrentPage(pageNumber)
   const nextPage = () => setCurrentPage(prev => prev + 1)
   const prevPage = () => setCurrentPage(prev => prev - 1)
-
-
-  useEffect(() => {
-    filterHandler();
-  }, [todos, status, currentPage]);
   
   const filterHandler = () => {
-    console.log('kek')
     switch(status){
       case 'completed' :
         setFilteredTodos(todos.filter(todo => todo.completed == true))
@@ -59,9 +50,31 @@ function App() {
         break;
     }
   };
+  const sortByDate = () => {
+    if (selectedSort === 'up') {
+     const dateUp = [...todos].sort((a, b) => a.date - b.date)
+     setTodos(dateUp)
+    } else if(selectedSort === 'down') {
+      const dateDown = [...todos].sort((a, b) => b.date - a.date)
+      setTodos(dateDown)
+    }
+  }
+ 
+  useEffect(() => {
+    getTodos()
+  }, []);
+
+  useEffect(() => {
+    filterHandler();
+  }, [todos, status, currentPage]);
+
+  useEffect(() => {
+    sortByDate()
+  }, [selectedSort])
   
   return (
     <div className="App">
+      <div className='_container'>
       <header>
       <h1>Todo List</h1>
       <Form 
@@ -70,6 +83,7 @@ function App() {
         setTodos={setTodos} 
         setInputText={setInputText} 
         setStatus={setStatus}
+        setSelectedSort={setSelectedSort}
       />
       </header>
       { isLoading ? (
@@ -89,6 +103,7 @@ function App() {
         nextPage = {nextPage}
         prevPage = {prevPage}
       />
+      </div>
     </div>
   );
 }

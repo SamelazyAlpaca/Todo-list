@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Pagination = ({todosPerPage, currentPage, totalTodos, paginateHandler, nextPage, prevPage}) => {
+    
     const pageNumbers = []
     for ( let i= 1; i <= Math.ceil(totalTodos / todosPerPage); i++) {
         pageNumbers.push(i)
@@ -12,9 +13,12 @@ const Pagination = ({todosPerPage, currentPage, totalTodos, paginateHandler, nex
                  pageNumbers.map(number => (
                     <li className='page-item' key={number}>
                         <a 
-                            href="!#" 
+                            href="#" 
                             className='page-link'
-                            onClick={() => paginateHandler(number)}    
+                            onClick={(e) => {
+                                e.preventDefault()
+                                paginateHandler(number)
+                            }}    
                         >
                             {number}
                          </a>

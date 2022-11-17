@@ -1,5 +1,5 @@
 import React from 'react'
-import Todo from './Todo';
+import Todo from './Todo'
 
 const ToDoList = ({todos, setTodos, filteredTodos}) => {
     return(
@@ -12,6 +12,7 @@ const ToDoList = ({todos, setTodos, filteredTodos}) => {
                         todo={todo}
                         title={todo.title} 
                         key={todo.id}
+                        createdDate={todo.createdDate}
                     />
                 )))}
             </ul>
