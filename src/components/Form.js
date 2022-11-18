@@ -1,23 +1,21 @@
-import React from 'react'
+import {useRef} from 'react'
 
-const Form = ({setInputText, inputText, todos, setTodos, setStatus, setSelectedSort}) => {
-    const inputTextHandler = (e) => {
-        setInputText(e.target.value)
-    }
+const Form = ({ todos, setTodos, setStatus, setSelectedSort}) => {
+    const ref =useRef(null)
+
     const submitTodoHandler = (e) => {
-        let today = new Date()
         e.preventDefault()
         setTodos([
             ...todos, 
             {
-                title: inputText, 
+                title: ref.current.value, 
                 completed: false, 
                 id: todos.length + 1 , 
                 date: Date.now(),
-                createdDate: today.getDate() + '-' + parseInt(today.getMonth() + 1) + '-' + today.getFullYear(),
+                createdDate: new Date().getDate() + '-' + parseInt(new Date().getMonth() + 1) + '-' + new Date().getFullYear(),
             }
         ])
-        setInputText('')
+        ref.current.value=''
     }
     const statusHandler = (e) => {
         setStatus(e.target.value)
@@ -27,8 +25,7 @@ const Form = ({setInputText, inputText, todos, setTodos, setStatus, setSelectedS
         <form>
             <div className='form-wrapper'>
             <input 
-                value={inputText} 
-                onChange={inputTextHandler} 
+                ref={ref}
                 type="text" 
                 className="todo-input" 
             />

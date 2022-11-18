@@ -18,7 +18,7 @@ const Todo = ({title, todo, todos, setTodos, date, createdDate }) => {
     return (
          <div className='todo'>
             <li className={`todo-item ${todo.completed ? "completed" : ''} `}>{title}</li>
-            <li className='todo__item-date'>{createdDate}</li>
+            <li className='todo-item-date'>{createdDate}</li>
             <div className='button-wrapper'>
             <button onClick={completeHandler} className='complete-btn'>
                  <i className='fas fa-check'></i>

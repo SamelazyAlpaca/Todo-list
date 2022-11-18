@@ -80,12 +80,10 @@ form button:hover {
   transition: all 1s ease;
   max-width: 50.5rem;
   width: 100%;
+  font-family: 'Sono', sans-serif;
 }
 .filter-todo {
   padding: 0.5rem;
-}
-.todo li {
-  flex: 1;
 }
 
 .trash-btn,
@@ -107,8 +105,16 @@ form button:hover {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   line-height: 1.3em;
+  letter-spacing: -1px;
+  word-spacing: -1px;
+  flex: 1 1;
 }
-
+.todo-item-date {
+  font-weight: 400;
+    font-size: 1.2rem;
+    letter-spacing: -1px;
+    margin-right: 10px;
+}
 .fa-trash,
 .fa-check {
   pointer-events: none;
