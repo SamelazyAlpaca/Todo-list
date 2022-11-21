@@ -1,17 +1,13 @@
 import React from 'react'
 
-const Pagination = ({todosPerPage, currentPage, totalTodos, paginateHandler, nextPage, prevPage}) => {
+const Pagination = ({ currentPage, paginateHandler, nextPage, prevPage, pageNumbers}) => {
     
-    const pageNumbers = []
-    for ( let i= 1; i <= Math.ceil(totalTodos / todosPerPage); i++) {
-        pageNumbers.push(i)
-    }
     return (
           <ul className='pagination'>
             <button className={`btn btn-primary ${(currentPage == pageNumbers[0]) ? 'disabled' : ''}`} onClick={prevPage}>Prev</button>
              {
                  pageNumbers.map(number => (
-                    <li className='page-item' key={number}>
+                    <li className={`page-item ${currentPage == number ? 'page-item-current' : ''}`} key={number}>
                         <a 
                             href="#" 
                             className='page-link'

@@ -1,7 +1,10 @@
 import {useRef} from 'react'
+import uuid from 'react-uuid'
 
 const Form = ({ todos, setTodos, setStatus, setSelectedSort}) => {
     const ref =useRef(null)
+    const unique_id = uuid()
+    const small_id = unique_id.slice(0, 8)
 
     const submitTodoHandler = (e) => {
         e.preventDefault()
@@ -10,7 +13,7 @@ const Form = ({ todos, setTodos, setStatus, setSelectedSort}) => {
             {
                 title: ref.current.value, 
                 completed: false, 
-                id: todos.length + 1 , 
+                id: small_id, 
                 date: Date.now(),
                 createdDate: new Date().getDate() + '-' + parseInt(new Date().getMonth() + 1) + '-' + new Date().getFullYear(),
             }
@@ -37,6 +40,7 @@ const Form = ({ todos, setTodos, setStatus, setSelectedSort}) => {
                 <i className='fas fa-plus-square'></i>
             </button>
             </div>
+            <div className='filtering-wrapper'>
             <div className='select'>
                 <select onChange={statusHandler} name="todo" className="filter-todo">
                     <option value="all">All</option>
@@ -58,7 +62,8 @@ const Form = ({ todos, setTodos, setStatus, setSelectedSort}) => {
                         }}>
                         <i className="fa fa-arrow-up" aria-hidden="true"></i>
                     </button>
-                </div>
+            </div>
+            </div>
         </form>
     )
 }

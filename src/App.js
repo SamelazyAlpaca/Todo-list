@@ -17,7 +17,7 @@ function App() {
   const getTodos = async () => {
     setIsLoading(true)
     try {
-      const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=50')
       setTodos(res.data)
       setIsLoading(false)
     } catch (e) {
@@ -60,7 +60,7 @@ function App() {
       const tasks = arr.filter(todo => todo.completed == false)
       return tasks
     } else {
-      const tasks =arr
+      const tasks = arr
       return tasks
     }
   }
@@ -68,15 +68,21 @@ function App() {
   const filterTodos = useMemo(() => {
     const filteredTodos = filterHandler(sortTodos)
     return filteredTodos || [];
-  }, [todos, status, selectedSort ])
+  }, [todos, status, selectedSort, currentPage])
 
+  const pageNumbers = []
   const paginationMemo = useMemo(() => {
+    for ( let i= 1; i <= Math.ceil(filterTodos.length / todosPerPage); i++) {
+        pageNumbers.push(i)
+    }
+    if (pageNumbers.length < currentPage) {
+      setCurrentPage(pageNumbers[0])
+    }
     const lastTodoIndex = currentPage * todosPerPage
     const firstTodoIndex = lastTodoIndex - todosPerPage 
     return filterTodos.slice(firstTodoIndex, lastTodoIndex)
-  }, [currentPage, todos, selectedSort ])
+  }, [todos, status, selectedSort, currentPage ])
 
-  console.log('123');
 
   useEffect(() => {
     getTodos()
@@ -103,7 +109,8 @@ function App() {
           <Loader />
         ) : (
           <ToDoList
-            todos={paginationMemo}
+            todos={todos}
+            todosList={paginationMemo}
             setTodos={setTodos}
           />
         )}
@@ -115,8 +122,9 @@ function App() {
           <Pagination
             currentPage={currentPage}
             paginateHandler={paginateHandler}
-            todosPerPage={todosPerPage}
-            totalTodos={todos.length}
+            pageNumbers={pageNumbers}
+            // todosPerPage={todosPerPage}
+            // totalTodos={todos.length}
             nextPage={nextPage}
             prevPage={prevPage}
           />
