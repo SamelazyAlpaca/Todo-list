@@ -17,8 +17,9 @@ function App() {
 	const getTodos = async () => {
 		setIsLoading(true)
 		try {
-			const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=25')
-			setTodos(res.data)
+			const res = await axios.get('https://todo-api-learning.herokuapp.com/v1/tasks/5?order=asc&pp=5&page=1')
+			console.log('GET todos:', res.data.tasks);
+			setTodos(res.data.tasks)
 			setIsLoading(false)
 		} catch (e) {
 			setIsLoading(false)
@@ -26,7 +27,7 @@ function App() {
 			alert(`${e.message}, Please try again`)
 		}
 	}
-
+	console.log('todo',todos.todo);
 	const dateByNew = () => {
 		return [...todos].sort((a, b) => a.date - b.date)
 	}
@@ -45,9 +46,9 @@ function App() {
 	const filterHandler = (arr) => {
 		switch (status) {
 			case 'completed':
-				return arr.filter(todo => todo.completed === true)
+				return arr.filter(todo => todo.done === true)
 			case 'uncompleted':
-				return arr.filter(todo => todo.completed === false)
+				return arr.filter(todo => todo.done === false)
 			default:
 				return arr
 		}

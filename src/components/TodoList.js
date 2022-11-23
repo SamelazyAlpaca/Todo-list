@@ -11,8 +11,9 @@ const ToDoList = ({ todos, setTodos, todosList }) => {
 						setTodos={setTodos}
 						todos={todos}
 						todo={todo}
-						key={todo.id}
-						createdDate={todo.createdDate}
+						key={todo.uuid}
+						createdAt={todo.createdAt}
+						dateSort={+new Date(todo.createdAt)}
 					/>
 				)))}
 			</ul>

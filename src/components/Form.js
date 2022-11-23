@@ -4,7 +4,6 @@ import uuid from 'react-uuid'
 const Form = ({ todos, setTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
 	const ref = useRef(null)
 	const unique_id = uuid()
-	const small_id = unique_id.slice(0, 8)
 
 	const submitTodoHandler = (e) => {
 		e.preventDefault()
@@ -12,9 +11,9 @@ const Form = ({ todos, setTodos, setStatus, selectedSort, setSelectedSort, setCu
 			setTodos([
 				...todos,
 				{
-					title: ref.current.value.trim(),
-					completed: false,
-					id: small_id,
+					name: ref.current.value.trim(),
+					done: false,
+					uuid: unique_id,
 					date: Date.now(),
 					createdDate: new Date().getDate() + '-' + parseInt(new Date().getMonth() + 1) + '-' + new Date().getFullYear(),
 				}
@@ -24,9 +23,7 @@ const Form = ({ todos, setTodos, setStatus, selectedSort, setSelectedSort, setCu
 			ref.current.closest('.form-wrapper').classList.add('input-wrong')
 			setTimeout(() => {
 				ref.current.closest('.form-wrapper').classList.remove('input-wrong')
-				console.log(ref.current);
 			}, 2000)
-			console.log(ref.current);
 		}
 	}
 

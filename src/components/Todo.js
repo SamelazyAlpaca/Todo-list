@@ -1,24 +1,27 @@
 import React, { useRef, useState } from 'react'
 
-const Todo = ({ todo, todos, setTodos, createdDate }) => {
+const Todo = ({ todo, todos, setTodos, createdAt,dateSort }) => {
+	console.log(dateSort);
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
-
+	const date = new Date(createdAt)
+	console.log('3232', todo.userId);
+	const todoDate = date.getDate() + '-' + parseInt(date.getMonth() + 1) + '-' + new Date().getFullYear()
 	const deleteHandler = () => {
-		setTodos(todos.filter(el => el.id !== todo.id))
+		setTodos(todos.filter(el => el.uuid !== todo.uuid))
 	}
 
 	const completeHandler = () => {
 		todos.find((item) => {
-			if (item.id === todo.id) {
-				todo.completed = !todo.completed
+			if (item.uuid === todo.uuid) {
+				todo.done = !todo.done
 			}
 		})
 		setTodos([...todos])
 	}
 	const editHandler = () => {
 		todos.find((item) => {
-			if (item.id === todo.id) {
+			if (item.uuid === todo.uuid) {
 				setReadOnly(false)
 				inputFocus.current.focus()
 			}
@@ -33,8 +36,8 @@ const Todo = ({ todo, todos, setTodos, createdDate }) => {
 			e.target.blur()
 		} else if (e.target.readOnly === false && e.key === 'Enter') {
 			todos.find((item) => {
-				if (item.id === todo.id) {
-					todo.title = inputFocus.current.value
+				if (item.uuid === todo.uuid) {
+					todo.name = inputFocus.current.value
 				}
 				return item
 			})
@@ -53,10 +56,10 @@ const Todo = ({ todo, todos, setTodos, createdDate }) => {
 				onBlur={inputOnBlur}
 				ref={inputFocus}
 				readOnly={readOnly}
-				defaultValue={todo.title}
-				className={`todo-item ${todo.completed ? "completed" : ''} ${readOnly ? '' : 'todo-item-border'}`}
+				defaultValue={todo.name}
+				className={`todo-item ${todo.done ? "completed" : ''} ${readOnly ? '' : 'todo-item-border'}`}
 			/>
-			<li className='todo-item-date'>{createdDate}</li>
+			<li className='todo-item-date'>{todoDate}</li>
 			<div className='button-wrapper'>
 				<button onClick={editHandler} className='edit-btn'>
 					<i className="fas fa-edit" />
