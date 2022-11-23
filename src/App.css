@@ -62,6 +62,45 @@ form button {
 form input {
   outline: none;
 }
+.form-wrapper {
+	border: 2px solid transparent;
+	position: relative;
+}
+.form-wrapper.input-wrong {
+	animation-name: invalidInputBorder;
+	animation-duration: 2.2s;
+}
+.form-wrapper::after {
+	content: "Please enter valid text";
+	position: absolute;
+	bottom: -1.5rem;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+	color: rgb(202, 51, 51);
+	opacity: 0;
+	transition: all 0.3s ease-in-out;
+}
+@keyframes invalidInputText {
+	0%, 100% {
+		opacity: 0;
+	}
+	30%, 70% {
+		opacity: 1;
+	}
+}
+@keyframes invalidInputBorder {
+	0%, 100% {
+		border-color: transparent;
+	}
+	30%, 70% {
+		border-color: rgb(202, 51, 51);
+	}
+}
+.form-wrapper.input-wrong::after {
+	animation-name: invalidInputText;
+	animation-duration: 2.2s;
+}
 form button {
   color: #ff6f47;
   background: #f7fffe;
@@ -71,6 +110,13 @@ form button {
 form button:hover {
   background: #ff6f47;
   color: white;
+}
+.sort-wrapper button.sort-active {
+	background: #ff6f47;
+  color: white;
+}
+.sort-wrapper button:not(.sort-active):hover  {
+	opacity: 0.5 !important;
 }
 .todo-container {
   display: flex;
@@ -115,6 +161,16 @@ form button:hover {
 }
 .complete-btn {
   background: rgb(11, 212, 162);
+}
+.btn-primary {
+	font-size: 0.8rem;
+	padding: 0.3rem 0.5rem;
+ }
+.btn-primary:first-child {
+	border-radius: 0.3rem 0 0 0.3rem;
+}
+.btn-primary:last-child {
+	border-radius: 0 0.3rem 0.3rem 0;
 }
 .todo-item {
   padding: 0rem 0.5rem;
@@ -199,12 +255,6 @@ select {
   cursor: pointer;
   pointer-events: none;
 }
-/* Transition */
-/*
-.select:hover::after {
-  transform: scale(1.5);
-}
-*/
 .pagination {
   justify-content: center;
 }
@@ -238,8 +288,16 @@ select {
     margin: 0 auto;
     flex-direction: column;
   }
+  .form-wrapper {
+	width: 100%;
+	text-align: center;
+  }
+  .form-wrapper input {
+	width: 88%;
+  }
   .filtering-wrapper {
     width: 100%;
+	 justify-content: space-around;
   }
   .trash-btn, 
   .complete-btn, 
@@ -255,7 +313,8 @@ select {
     text-align: center;
   }
   .filtering-wrapper {
-    width: 65%;
+    width: 85%;
+	 justify-content: space-between;
   }
   .sort-wrapper p {
     font-size: 0.9rem;
@@ -292,13 +351,12 @@ select {
     font-size: 0.8rem;
     padding: 0.3rem 0.6rem;
   }
-  .btn.btn-primary {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.5rem;
+
+  .select::after {
+	font-size: 0.7rem;
   }
-}
-@media screen and (max-width: 24.98rem) {
-  .filtering-wrapper {
-    width: 85%;
+  .todo-item-date {
+	font-weight: 600;
+	font-size: 0.9rem;
   }
 }
