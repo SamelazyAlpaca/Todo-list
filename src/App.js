@@ -10,16 +10,20 @@ function App() {
 	const [todos, setTodos] = useState([])
 	const [status, setStatus] = useState('all')
 	const [isLoading, setIsLoading] = useState(false)
-	const [currentPage, setCurrentPage] = useState(1)
+	const [currentPage, setCurrentPage] = useState(2)
 	const [selectedSort, setSelectedSort] = useState('down')
 	const todosPerPage = 5
+	const [todosCount, setTodosCount] = useState()
 
 	const getTodos = async () => {
-		setIsLoading(true)
 		try {
-			const res = await axios.get('https://todo-api-learning.herokuapp.com/v1/tasks/5?order=asc&pp=5&page=1')
-			setTodos(res.data.tasks)
-			setIsLoading(false)
+			setIsLoading(true)
+			await axios.get(`https://todo-api-learning.herokuapp.com/v1/tasks/5?order=asc&pp=${todosPerPage}&page=${currentPage}`)
+				.then((response) => {
+					setTodosCount(response.data.count)
+					setTodos(response.data.tasks)
+					setIsLoading(false)
+				})
 		} catch (e) {
 			setIsLoading(false)
 			console.error("Can't get todos :", e.message);
@@ -54,27 +58,36 @@ function App() {
 
 	const sortTodos = useMemo(() => {
 		const sortingTodos = sortByDate()
-		return sortingTodos || []
-	}, [todos, selectedSort])
+		console.log('SORTING TODOS:', sortingTodos);
+		return sortingTodos
+	}, [todos, selectedSort, currentPage])
 
 	const filterTodos = useMemo(() => {
-		return filterHandler(sortTodos) || []
+		console.log('FILTERHANDLER:', filterHandler(sortTodos));
+		return filterHandler(sortTodos)
 	}, [todos, status, selectedSort, currentPage])
 
 	const pageNumbers = []
 	const paginationMemo = useMemo(() => {
-		for (let i = 1; i <= Math.ceil(filterTodos.length / todosPerPage); i++) {
+		console.log('FILTERTODOS:', filterTodos);
+		for (let i = 1; i <= Math.ceil(todosCount / todosPerPage); i++) {
 			pageNumbers.push(i)
 		}
+		console.log('FILTERTODOS2222:', filterTodos);
 		const lastTodoIndex = currentPage * todosPerPage
+		console.log('LASTINDEX:', lastTodoIndex);
 		const firstTodoIndex = lastTodoIndex - todosPerPage
+		console.log('FIRSTINDEX:', firstTodoIndex);
+		console.log('TODOS',todos);
+		console.log('FILTERSLICE:' , filterTodos.slice(firstTodoIndex, lastTodoIndex));
 		return filterTodos.slice(firstTodoIndex, lastTodoIndex)
 	}, [todos, status, selectedSort, currentPage])
 
 
+
 	useEffect(() => {
 		getTodos()
-	}, []);
+	}, [currentPage]);
 
 	useEffect(() => {
 		sortByDate()
@@ -108,7 +121,7 @@ function App() {
 					? <h2 style={{ marginTop: "2rem", padding: "1rem", textAlign: "center" }}>Список дел пуст... Самое время его пополнить!</h2>
 					: null
 				}
-				{todos.length > todosPerPage ? (
+				{todosCount > todosPerPage ? (
 					<Pagination
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useRef } from 'react'
 import uuid from 'react-uuid'
 
@@ -7,17 +8,24 @@ const Form = ({ todos, setTodos, setStatus, selectedSort, setSelectedSort, setCu
 	const submitTodoHandler = (e) => {
 		e.preventDefault()
 		if (ref.current.value.trim().length) {
-			setTodos([
-				...todos,
-				{
-					uuid: unique_id,
-					name: ref.current.value.trim(),
-					done: false,
-					userId: '5',
-					dateSort: Date.now(),
-					createdAt: new Date(),
+			axios.post('https://todo-api-learning.herokuapp.com/v1/task/5',
+			{
+				"uuid": unique_id,
+				"name": ref.current.value.trim(),
+				"done": false,
+				"userId": 5,
+				// dateSort: Date.now(),
+				"createdAt": new Date(),
+			}, {
+				headers: {
+					'Content-Type': 'application/json'
 				}
-			])
+			})
+			.then((response) => {
+				console.log('response uuid', response.data);
+				console.log(todos);
+				setTodos([...todos, response.data])
+			})
 			ref.current.value = ''
 		} else {
 			ref.current.closest('.form-wrapper').classList.add('input-wrong')

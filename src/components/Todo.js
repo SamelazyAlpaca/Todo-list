@@ -1,13 +1,13 @@
+import axios from 'axios'
 import React, { useRef, useState } from 'react'
 
-const Todo = ({ todo, todos, setTodos, createdAt, dateSort, }) => {
+const Todo = ({ todo, todos, setTodos }) => {
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
-	// const date = new Date(createdAt)
-	// const todoDate = date.getDate() + '-' + parseInt(date.getMonth() + 1) + '-' + new Date().getFullYear()
 
 	const deleteHandler = () => {
-		setTodos(todos.filter(el => el.uuid !== todo.uuid))
+		// setTodos(todos.filter(el => el.uuid !== todo.uuid))
+		axios.delete(`https://todo-api-learning.herokuapp.com/v1/task/5/${todo.uuid}`)
 	}
 
 	const completeHandler = () => {
@@ -18,6 +18,7 @@ const Todo = ({ todo, todos, setTodos, createdAt, dateSort, }) => {
 		})
 		setTodos([...todos])
 	}
+
 	const editHandler = () => {
 		todos.find((item) => {
 			if (item.uuid === todo.uuid) {
@@ -26,7 +27,6 @@ const Todo = ({ todo, todos, setTodos, createdAt, dateSort, }) => {
 			}
 		})
 	}
-	console.log('CreatedAt ', +new Date(todo.createdAt).getTime());
 
 	const keydownBlurInput = (e) => {
 		if (e.target.readOnly === false && e.key === 'Escape') {
@@ -34,19 +34,33 @@ const Todo = ({ todo, todos, setTodos, createdAt, dateSort, }) => {
 			setReadOnly(true)
 			e.target.blur()
 		} else if (e.target.readOnly === false && e.key === 'Enter') {
-			todos.find((item) => {
-				if (item.uuid === todo.uuid) {
-					todo.name = inputFocus.current.value
-				}
-				return item
+		// console.log(todo.userId);
+
+			// todos.find((item) => {
+			// 	if (item.uuid === todo.uuid) {
+			// 		console.log(todo);
+			// 		todo.name = inputFocus.current.value
+			// 	}
+			// 	// return item
+			// })
+			console.log(inputFocus.current.value);
+
+			console.log(todo);
+			axios.patch(`https://todo-api-learning.herokuapp.com/v1/task/5/${todo.uuid}`,
+			{name: `${inputFocus.current.value}`})
+			.then((response) => {
+				console.log('Edit response',response.data);
+				setTodos([...todos])
 			})
-			setTodos([...todos])
+			// setTodos([...todos])
 			e.target.blur()
 		}
 	}
+
 	const inputOnBlur = (e) => {
 		setReadOnly(true)
 	}
+
 	return (
 		<div className='todo'>
 			<input
