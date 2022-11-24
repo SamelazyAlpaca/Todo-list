@@ -11,14 +11,13 @@ function App() {
 	const [status, setStatus] = useState('all')
 	const [isLoading, setIsLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
-	const [selectedSort, setSelectedSort] = useState('up')
+	const [selectedSort, setSelectedSort] = useState('down')
 	const todosPerPage = 5
 
 	const getTodos = async () => {
 		setIsLoading(true)
 		try {
 			const res = await axios.get('https://todo-api-learning.herokuapp.com/v1/tasks/5?order=asc&pp=5&page=1')
-			console.log('GET todos:', res.data.tasks);
 			setTodos(res.data.tasks)
 			setIsLoading(false)
 		} catch (e) {
@@ -27,12 +26,11 @@ function App() {
 			alert(`${e.message}, Please try again`)
 		}
 	}
-	console.log('todo',todos.todo);
 	const dateByNew = () => {
-		return [...todos].sort((a, b) => a.date - b.date)
+		return [...todos].sort((a, b) => +new Date(a.createdAt).getTime() - +new Date(b.createdAt).getTime())
 	}
 	const dateByOld = () => {
-		return [...todos].sort((a, b) => b.date - a.date)
+		return [...todos].sort((a, b) => +new Date(b.createdAt).getTime() - +new Date(a.createdAt).getTime())
 	}
 
 	const sortByDate = () => {

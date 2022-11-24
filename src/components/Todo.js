@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react'
 
-const Todo = ({ todo, todos, setTodos, createdAt,dateSort }) => {
-	console.log(dateSort);
+const Todo = ({ todo, todos, setTodos, createdAt, dateSort, }) => {
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
-	const date = new Date(createdAt)
-	console.log('3232', todo.userId);
-	const todoDate = date.getDate() + '-' + parseInt(date.getMonth() + 1) + '-' + new Date().getFullYear()
+	// const date = new Date(createdAt)
+	// const todoDate = date.getDate() + '-' + parseInt(date.getMonth() + 1) + '-' + new Date().getFullYear()
+
 	const deleteHandler = () => {
 		setTodos(todos.filter(el => el.uuid !== todo.uuid))
 	}
@@ -27,7 +26,7 @@ const Todo = ({ todo, todos, setTodos, createdAt,dateSort }) => {
 			}
 		})
 	}
-
+	console.log('CreatedAt ', +new Date(todo.createdAt).getTime());
 
 	const keydownBlurInput = (e) => {
 		if (e.target.readOnly === false && e.key === 'Escape') {
@@ -46,9 +45,8 @@ const Todo = ({ todo, todos, setTodos, createdAt,dateSort }) => {
 		}
 	}
 	const inputOnBlur = (e) => {
-	   setReadOnly(true)
-   }
-
+		setReadOnly(true)
+	}
 	return (
 		<div className='todo'>
 			<input
@@ -59,7 +57,9 @@ const Todo = ({ todo, todos, setTodos, createdAt,dateSort }) => {
 				defaultValue={todo.name}
 				className={`todo-item ${todo.done ? "completed" : ''} ${readOnly ? '' : 'todo-item-border'}`}
 			/>
-			<li className='todo-item-date'>{todoDate}</li>
+			<li className='todo-item-date'>
+				{('0' + (+new Date(todo.createdAt).getDate())).slice(-2) + '-' + ('0' + (+new Date(todo.createdAt).getMonth() + 1)).slice(-2) + '-' + +new Date(todo.createdAt).getFullYear()}
+			</li>
 			<div className='button-wrapper'>
 				<button onClick={editHandler} className='edit-btn'>
 					<i className="fas fa-edit" />

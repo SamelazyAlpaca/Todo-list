@@ -4,18 +4,18 @@ import uuid from 'react-uuid'
 const Form = ({ todos, setTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
 	const ref = useRef(null)
 	const unique_id = uuid()
-
 	const submitTodoHandler = (e) => {
 		e.preventDefault()
 		if (ref.current.value.trim().length) {
 			setTodos([
 				...todos,
 				{
+					uuid: unique_id,
 					name: ref.current.value.trim(),
 					done: false,
-					uuid: unique_id,
-					date: Date.now(),
-					createdDate: new Date().getDate() + '-' + parseInt(new Date().getMonth() + 1) + '-' + new Date().getFullYear(),
+					userId: '5',
+					dateSort: Date.now(),
+					createdAt: new Date(),
 				}
 			])
 			ref.current.value = ''
