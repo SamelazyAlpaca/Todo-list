@@ -1,30 +1,24 @@
 import axios from 'axios'
 import { useRef } from 'react'
-import uuid from 'react-uuid'
 
-const Form = ({ todos, setTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
+const Form = ({ todos, setTodos,getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
 	const ref = useRef(null)
-	const unique_id = uuid()
 	const submitTodoHandler = (e) => {
 		e.preventDefault()
 		if (ref.current.value.trim().length) {
-			axios.post('https://todo-api-learning.herokuapp.com/v1/task/5',
+			axios.post('https://todo-api-learning.herokuapp.com/v1/task/8',
 			{
-				"uuid": unique_id,
-				"name": ref.current.value.trim(),
-				"done": false,
-				"userId": 5,
-				// dateSort: Date.now(),
-				"createdAt": new Date(),
+				name: ref.current.value.trim(),
+				done: false,
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			}, {
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			})
-			.then((response) => {
-				console.log('response uuid', response.data);
-				console.log(todos);
-				setTodos([...todos, response.data])
+			.then(() => {
+				getTodos()
 			})
 			ref.current.value = ''
 		} else {
@@ -60,26 +54,26 @@ const Form = ({ todos, setTodos, setStatus, selectedSort, setSelectedSort, setCu
 			<div className='filtering-wrapper'>
 				<div className='select'>
 					<select onChange={statusHandler} name="todo" className="filter-todo">
-						<option value="all">All</option>
-						<option value="completed">Completed</option>
-						<option value="uncompleted">Uncompleted</option>
+						<option value="">All</option>
+						<option value="done">Done</option>
+						<option value="undone">Undone</option>
 					</select>
 				</div>
 				<div className="sort-wrapper">
 					<p>Sort by date</p>
 					<button
-						className={`${(selectedSort === 'down') ? 'sort-active' : ''}`}
+						className={`${(selectedSort === 'desc') ? 'sort-active' : ''}`}
 						onClick={(e) => {
 							e.preventDefault()
-							setSelectedSort('down')
+							setSelectedSort('desc')
 						}}>
 						<i className="fa fa-arrow-down" aria-hidden="true"></i>
 					</button>
 					<button
-						className={`${(selectedSort === 'up') ? 'sort-active' : ''}`}
+						className={`${(selectedSort === 'asc') ? 'sort-active' : ''}`}
 						onClick={(e) => {
 							e.preventDefault()
-							setSelectedSort('up')
+							setSelectedSort('asc')
 						}}>
 						<i className="fa fa-arrow-up" aria-hidden="true"></i>
 					</button>

@@ -1,13 +1,19 @@
 import axios from 'axios'
 import React, { useRef, useState } from 'react'
 
-const Todo = ({ todo, todos, setTodos }) => {
+const Todo = ({ todo, todos, setTodos,getTodos, setCurrentPage }) => {
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
 
 	const deleteHandler = () => {
-		// setTodos(todos.filter(el => el.uuid !== todo.uuid))
-		axios.delete(`https://todo-api-learning.herokuapp.com/v1/task/5/${todo.uuid}`)
+		console.log(todo.uuid);
+		console.log(`https://todo-api-learning.herokuapp.com/v1/task/8/${todo.uuid}`);
+		axios.delete(`https://todo-api-learning.herokuapp.com/v1/task/8/${todo.uuid}`)
+		.then(() => {
+			console.log(todos);
+			setTodos(todos.filter(item => item.uuid !== todo.uuid))
+		})
+
 	}
 
 	const completeHandler = () => {
@@ -16,7 +22,9 @@ const Todo = ({ todo, todos, setTodos }) => {
 				todo.done = !todo.done
 			}
 		})
+
 		setTodos([...todos])
+
 	}
 
 	const editHandler = () => {
@@ -43,11 +51,16 @@ const Todo = ({ todo, todos, setTodos }) => {
 			// 	}
 			// 	// return item
 			// })
-			console.log(inputFocus.current.value);
+			// console.log(inputFocus.current.value);
 
-			console.log(todo);
-			axios.patch(`https://todo-api-learning.herokuapp.com/v1/task/5/${todo.uuid}`,
-			{name: `${inputFocus.current.value}`})
+			// console.log(todo);
+			axios.patch(`https://todo-api-learning.herokuapp.com/v1/task/8/${todo.uuid}`,
+			{
+				name: inputFocus.current.value,
+				done: todo.done,
+				createdAt: todo.createdAt,
+				updatedAt: new Date(),
+			})
 			.then((response) => {
 				console.log('Edit response',response.data);
 				setTodos([...todos])
