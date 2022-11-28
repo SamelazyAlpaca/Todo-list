@@ -114,9 +114,16 @@ form button:hover {
 .sort-wrapper button.sort-active {
 	background: #ff6f47;
   color: white;
+  transition: transform 0.3s ease-in-out;
 }
 .sort-wrapper button:not(.sort-active):hover  {
 	opacity: 0.5 !important;
+}
+.sort-wrapper .sort-active i {
+  transition: transform 0.3s ease-in-out;
+}
+.sort-wrapper .sort-active-up i {
+  transform: rotate(180deg);
 }
 .todo-container {
   display: flex;
@@ -150,7 +157,8 @@ form button:hover {
 
 .trash-btn,
 .complete-btn,
-.edit-btn {
+.edit-btn,
+.uncomplete-btn {
   background: #ff6f47;
   color: white;
   border: none;
@@ -161,6 +169,9 @@ form button:hover {
 }
 .complete-btn {
   background: rgb(11, 212, 162);
+}
+.uncomplete-btn {
+  background: #d33f3f;
 }
 .btn-primary {
 	font-size: 0.8rem;
@@ -189,6 +200,17 @@ form button:hover {
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s ease-in-out;
 }
+.todo-completed {
+  opacity: 0.7;
+}
+.todo-completed button {
+  opacity: 0.7;
+  transition: opacity 0.3s ease-in-out;
+}
+.todo-completed button:hover {
+  
+  opacity: 1;
+}
 .todo-item-border:focus {
  border-color: #ff6f47;
 }
@@ -202,6 +224,10 @@ form button:hover {
 .fa-check,
 .fa-pencil {
   pointer-events: none;
+}
+.fa-times {
+  font-size: 1.2rem;
+    padding: 0 0.1rem;
 }
 
 .fall {
@@ -272,6 +298,7 @@ select {
 .sort-wrapper p {
   margin-top: 15px;
   margin-right: 15px;
+  cursor: pointer;
 }
 .page-item-current a {
   background-color: #dee2e6;
