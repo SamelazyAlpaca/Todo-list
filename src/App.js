@@ -5,6 +5,7 @@ import Form from './components/Form';
 import ToDoList from './components/TodoList';
 import Loader from './components/Loader';
 import Pagination from './components/Pagination';
+import { Container, Center } from '@chakra-ui/react'
 
 function App() {
 	const [todos, setTodos] = useState([])
@@ -52,10 +53,13 @@ function App() {
 	useEffect(() => {
 		getTodos()
 	}, [currentPage, status, selectedSort]);
-
+	// width: 100%;
+	// max-width: 1200px;
+	// padding: 0 15px;
+	// margin: 0 auto;
 	return (
-		<div className="App">
-			<div className='_container'>
+		<Center className="App">
+			<Container maxW="1200px" width="100%" padding="0 15px" >
 				<header>
 					<h1>Todo List</h1>
 					<Form
@@ -89,8 +93,8 @@ function App() {
 						pageNumbers={pageNumbers}
 					/>
 				) : null}
-			</div>
-		</div>
+			</Container>
+		</Center>
 	);
 }
 

@@ -1,5 +1,13 @@
 import axios from 'axios'
 import { useRef } from 'react'
+import { 
+	FormControl, 
+	Input, 
+	InputGroup, 
+	InputRightAddon, 
+	Button,
+	Box
+} from '@chakra-ui/react'
  
 const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
 	const ref = useRef(null)
@@ -56,22 +64,35 @@ const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPa
 
 	return (
 		<form>
-			<div className='form-wrapper'>
-				<input
+			
+			<InputGroup 
+				className='form-wrapper'
+				width="auto"
+				>
+				<Input
+					width='auto'
+					bg='#fff'
 					ref={ref}
 					type="text"
 					placeholder="I'm going to..."
 					className="todo-input"
 				/>
-				<button
+				<InputRightAddon
+					padding="0"
+					margin="0"
+					border="none"
+				>
+					<Button
+					borderLeftRadius="0"
 					onClick={submitTodoHandler}
 					className="todo-button"
 					type="submit"
 				>
 					<i className='fas fa-plus-square' />
-				</button>
-			</div>
-			<div className='filtering-wrapper'>
+				</Button>
+				</InputRightAddon>
+			</InputGroup>
+			<Box className='filtering-wrapper'>
 				<div className='select'>
 					<select onChange={statusHandler} name="todo" className="filter-todo">
 						<option value="">All</option>
@@ -99,7 +120,7 @@ const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPa
 						<i className="fa fa-arrow-up" aria-hidden="true"></i>
 					</button> */}
 				</div>
-			</div>
+			</Box>
 		</form>
 	)
 }
