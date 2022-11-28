@@ -1,10 +1,11 @@
 import React from 'react'
 import Todo from './Todo'
+import { Flex, List } from '@chakra-ui/react'
 
 const ToDoList = ({ todos, setTodos, getTodos, setCurrentPage }) => {
 	return (
-		<div className='todo-container'>
-			<ul className='todo-list'>
+		<Flex justifyContent="center" alignItems="center" pb="2rem">
+			<List className='todo-list'>
 				{(todos.map(todo => (
 					<Todo
 						setTodos={setTodos}
@@ -17,8 +18,8 @@ const ToDoList = ({ todos, setTodos, getTodos, setCurrentPage }) => {
 						setCurrentPage={setCurrentPage}
 					/>
 				)))}
-			</ul>
-		</div>
+			</List>
+		</Flex>
 	)
 }
 export default ToDoList;

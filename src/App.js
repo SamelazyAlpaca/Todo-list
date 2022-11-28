@@ -17,30 +17,30 @@ function App() {
 	const todosPerPage = 5
 
 	const getTodos = () => {
-			setIsLoading(true)
-			axios.get(`${process.env.REACT_APP_BASE_URL}tasks/${process.env.REACT_APP_userId}?filterBy=${status}&order=${selectedSort}&pp=${todosPerPage}&page=${currentPage}`)
-				.then((response) => {
-					setTodosCount(response.data.count)
-					setTodos(response.data.tasks)
-					setIsLoading(false)
-				})
+		setIsLoading(true)
+		axios.get(`${process.env.REACT_APP_BASE_URL}tasks/${process.env.REACT_APP_userId}?filterBy=${status}&order=${selectedSort}&pp=${todosPerPage}&page=${currentPage}`)
+			.then((response) => {
+				setTodosCount(response.data.count)
+				setTodos(response.data.tasks)
+				setIsLoading(false)
+			})
 			.catch((error) => {
-			setIsLoading(false)
-			switch (error.response.status) {
-				case 400:
-					console.log('Error response:', error.response);
-					alert(error.response.data.message)
-					break;
-				case 404:
-					console.log('Error request:', error.response);
-					alert(error.response.statusText)
-					break;
-				case 500:
-					console.log(error.request);
-					alert(error.response.data)
-					break;
-			}
-		}) 
+				setIsLoading(false)
+				switch (error.response.status) {
+					case 400:
+						console.log('Error response:', error.response);
+						alert(error.response.data.message)
+						break;
+					case 404:
+						console.log('Error request:', error.response);
+						alert(error.response.statusText)
+						break;
+					case 500:
+						console.log(error.request);
+						alert(error.response.data)
+						break;
+				}
+			})
 	}
 
 	const pageNumbers = []

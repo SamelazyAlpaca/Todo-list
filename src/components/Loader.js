@@ -2,18 +2,18 @@
 import { Spinner } from '@chakra-ui/react'
 
 const Loader = () => {
-  return (
-    <Spinner 
-      className='spinnerCentered' 
-      color='blue.500'
-      size="lg"
-      speed='0.8s'
-      thickness='3px'
-      emptyColor='gray.400'
-      display={'block'}
-      textAlign={'center'}
-    />
-  );
+	return (
+		<Spinner
+			color='blue.500'
+			size="lg"
+			speed='0.8s'
+			thickness='3px'
+			emptyColor='gray.400'
+			display='flex'
+			textAlign='center'
+			m='0 auto'
+		/>
+	);
 }
 
 export default Loader;

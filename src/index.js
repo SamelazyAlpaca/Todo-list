@@ -15,6 +15,17 @@ const theme = extendTheme({
 				color: "#fff"
 			},
 		})
+	},
+	components: {
+		Input: {
+			baseStyle: {
+				field: {
+					_focus: {
+						borderBottom: "2px solid transparent"
+					}
+				}
+			}
+		}
 	}
 })
 

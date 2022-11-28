@@ -1,14 +1,25 @@
 import axios from 'axios'
 import React, { useRef, useState } from 'react'
+import {
+	Box,
+	Button,
+	Input,
+	ListItem,
+	Text,
+	Editable,
+	EditableInput,
+	EditablePreview,
+} from '@chakra-ui/react'
+import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons'
 
 const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
- 
+
 	const deleteHandler = () => {
 		console.log(todo.uuid);
 		axios.delete(`${process.env.REACT_APP_BASE_URL}task/${process.env.REACT_APP_userId}/${todo.uuid}`)
-			.then( () => {
+			.then(() => {
 				getTodos()
 				if (todos.length === 1) {
 					setCurrentPage(prev => prev - 1)
@@ -110,36 +121,73 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 	}
 
 	return (
-		<div className={`todo ${todo.done ? 'todo-completed' : ''}`}>
-			<div className='button-wrapper'>
-			<button onClick={editHandler} className='edit-btn'>
-					<i className="fas fa-edit" />
-				</button>
-				<button onClick={completeHandler} className={`${todo.done ? 'uncomplete-btn' : 'complete-btn'} ` }>
+		<ListItem borderRadius="0.375rem" className={`todo ${todo.done ? 'todo-completed' : ''}`}>
+			<Box className='button-wrapper'>
+				<Button
+					onClick={editHandler}
+					className='edit-btn'
+					bgColor="#ff6f47"
+					w={100}
+					h={100}
+					maxW={12}
+					maxH={14}
+					borderLeftRadius="0.375rem"
+					borderRightRadius="0"
+				>
+					<EditIcon />
+				</Button>
+				<Button
+					onClick={completeHandler}
+					className={`${todo.done ? 'uncomplete-btn' : 'complete-btn'} `}
+					bgColor={`${todo.done ? '#d33f3f' : 'rgb(11, 212, 162)'}`}
+					h={100}
+					w={100}
+					maxW={12}
+					maxH={14}
+					borderRadius="none"
+				>
 					{todo.done
-						? <i className='fas fa-times' aria-hidden='true' /> 
-						: <i className='fas fa-check' aria-hidden='true' />
+						? <CloseIcon />
+						: <CheckIcon />
 					}
-				</button>
-			</div>
-			<input
+				</Button>
+			</Box>
+			<Input
+				size="lg"
+				variant="custom"
+				borderRadius="none"
 				onDoubleClick={editHandler}
+				marginLeft="10px"
+				marginRight="10px"
+				px="0.5rem"
+				cursor="pointer"
 				onKeyDown={keydownBlurInput}
 				onBlur={inputOnBlur}
 				ref={inputFocus}
 				readOnly={readOnly}
-				defaultValue={todo.name}
 				className={`todo-item ${todo.done ? "completed" : ''} ${readOnly ? '' : 'todo-item-border'}`}
+				value={todo.name}
 			/>
-			<li className='todo-item-date'>
+			<Text className='todo-item-date'>
 				{('0' + (+new Date(todo.createdAt).getDate())).slice(-2) + '-' + ('0' + (+new Date(todo.createdAt).getMonth() + 1)).slice(-2) + '-' + +new Date(todo.createdAt).getFullYear()}
-			</li>
-			<div className='button-wrapper'>
-				<button onClick={deleteHandler} className='trash-btn'>
-					<i className='fas fa-trash' />
-				</button>
-			</div>
-		</div>
+			</Text>
+			<Box className='button-wrapper'>
+				<Button
+					onClick={deleteHandler}
+					// className='trash-btn'
+					borderRightRadius="0.375rem"
+					borderLeftRadius="0"
+					bgColor="#ff6f47"
+					w={100}
+					h={100}
+					maxW={12}
+					maxH={14}
+					color="#fff"
+				>
+					<DeleteIcon />
+				</Button>
+			</Box>
+		</ListItem>
 	)
 }
 export default Todo;

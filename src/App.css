@@ -64,6 +64,7 @@ form input {
 }
 .form-wrapper {
 	border: 2px solid transparent;
+	border-radius: 0.475rem;
 	position: relative;
 }
 .form-wrapper.input-wrong {
@@ -116,13 +117,11 @@ form .todo-button:hover {
   color: white;
   transition: transform 0.3s ease-in-out;
 }
-.sort-wrapper button:not(.sort-active):hover  {
-	opacity: 0.5 !important;
-}
-.sort-wrapper .sort-active i {
+
+.sort-wrapper .sort-active svg {
   transition: transform 0.3s ease-in-out;
 }
-.sort-wrapper .sort-active-up i {
+.sort-wrapper .sort-active-up svg {
   transform: rotate(180deg);
 }
 .todo-container {
@@ -208,11 +207,10 @@ form .todo-button:hover {
   transition: opacity 0.3s ease-in-out;
 }
 .todo-completed button:hover {
-  
   opacity: 1;
 }
 .todo-item-border:focus {
- border-color: #ff6f47;
+ border-color: #ff6f47 !important;
 }
 .todo-item-date {
   font-weight: 400;
@@ -240,33 +238,9 @@ form .todo-button:hover {
   opacity: 0.5;
 }
 
-/*CUSTOM SELECTOR */
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  outline: 0;
-  box-shadow: none;
-  border: 0 ;
-  background-image: none;
-}
 
-/* Custom Select */
-.select {
-  font-size: 1rem;
-  position: relative;
-  overflow: hidden;
-
-}
-select {
-  color: #ff6f47;
-  font-family: "Poppins", sans-serif;
-  cursor: pointer;
-  width: 10rem;
-}
 /* Arrow */
-.select::after {
+/* .select::after {
   content: "\25BC";
   position: absolute;
   display: flex;
@@ -280,14 +254,9 @@ select {
   background: #ff6f47;
   cursor: pointer;
   pointer-events: none;
-}
+} */
 .pagination {
   justify-content: center;
-}
-.spinnerCentered {
-  display: flex;
-  margin: 0 auto;
-  margin-bottom: 1rem;
 }
 .sort-wrapper {
   display: flex;
@@ -308,6 +277,62 @@ select {
   align-items: center;
   justify-content: space-around;
 }
+/* Chakra Changing styles */
+
+.chakra-select__icon-wrapper {
+	/* content: "\25BC"; */
+	/* position: absolute; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* top: 0; */
+	/* right: 0; */
+	min-width: 1.5rem;
+	font-size: 1em;
+	height: 100%;
+	background: #ff6f47;
+	cursor: pointer;
+	pointer-events: none;
+}
+.chakra-select {
+	color: #ff6f47;
+	font-family: "Poppins", sans-serif;
+	cursor: pointer;
+	width: 10rem !important;
+	padding-bottom: 0.5rem !important;
+}
+.chakra-select__icon-wrapper {
+	right: 0 !important;
+	border-top-right-radius: 0.375rem;
+	border-bottom-right-radius: 0.375rem;
+	color: #fff !important;
+}
+/*CUSTOM SELECTOR */
+/* select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	outline: 0;
+	box-shadow: none;
+	border: 0 ;
+	background-image: none;
+ } */
+ 
+ /* Custom Select */
+ /* .select {
+	font-size: 1rem;
+	position: relative;
+	overflow: hidden;
+ 
+ } */
+ /* select {
+	color: #ff6f47;
+	font-family: "Poppins", sans-serif;
+	cursor: pointer;
+	width: 10rem;
+ } */
+
 @media  screen and (max-width: 49.98rem) {
   form {
     max-width: 23.5rem;

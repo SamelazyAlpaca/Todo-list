@@ -1,14 +1,18 @@
 import axios from 'axios'
 import { useRef } from 'react'
-import { 
-	FormControl, 
-	Input, 
-	InputGroup, 
-	InputRightAddon, 
+import {
+	Input,
+	InputGroup,
+	InputRightAddon,
 	Button,
-	Box
-} from '@chakra-ui/react'
- 
+	Box,
+	Select,
+} from '@chakra-ui/react';
+import {
+	ArrowDownIcon,
+	AddIcon,
+} from '@chakra-ui/icons'
+
 const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
 	const ref = useRef(null)
 	const submitTodoHandler = (e) => {
@@ -57,18 +61,17 @@ const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPa
 			case 'asc':
 				setSelectedSort('desc')
 				break;
-			case 'desc' :
+			case 'desc':
 				setSelectedSort('asc')
 		}
 	}
 
 	return (
 		<form>
-			
-			<InputGroup 
+			<InputGroup
 				className='form-wrapper'
 				width="auto"
-				>
+			>
 				<Input
 					width='auto'
 					bg='#fff'
@@ -83,43 +86,45 @@ const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPa
 					border="none"
 				>
 					<Button
-					borderLeftRadius="0"
-					onClick={submitTodoHandler}
-					className="todo-button"
-					type="submit"
-				>
-					<i className='fas fa-plus-square' />
-				</Button>
+						borderLeftRadius="0"
+						onClick={submitTodoHandler}
+						className="todo-button"
+						type="submit"
+					>
+						{/* <AddIcon fontSize="1.1rem" /> */}
+						<i className='fas fa-plus-square' />
+					</Button>
 				</InputRightAddon>
 			</InputGroup>
 			<Box className='filtering-wrapper'>
-				<div className='select'>
-					<select onChange={statusHandler} name="todo" className="filter-todo">
-						<option value="">All</option>
-						<option value="done">Done</option>
-						<option value="undone">Undone</option>
-					</select>
-				</div>
-				<div className="sort-wrapper">
+				{/* <div className='select'> */}
+				<Select
+					onChange={statusHandler}
+					className="select filter-todo"
+					width="auto"
+					background="auto"
+				>
+					<option value="">All</option>
+					<option value="done">Done</option>
+					<option value="undone">Undone</option>
+				</Select>
+				<Box className="sort-wrapper">
 					<p onClick={dateHandler}>Sort by date</p>
-					<button
+					<Button
 						className={`sort-active ${selectedSort === 'asc' ? 'sort-active-up' : ''}`}
+						px={0}
+						py={0}
+						minW={8}
+						minH={5}
 						onClick={(e) => {
 							e.preventDefault()
 							// setSelectedSort('desc')
 							dateHandler()
 						}}>
-						<i className="fa fa-arrow-down" aria-hidden="true"></i>
-					</button>
-					{/* <button
-						className={`${(selectedSort === 'asc') ? 'sort-active' : ''}`}
-						onClick={(e) => {
-							e.preventDefault()
-							setSelectedSort('asc')
-						}}>
-						<i className="fa fa-arrow-up" aria-hidden="true"></i>
-					</button> */}
-				</div>
+						{/* <i className="fa fa-arrow-down" aria-hidden="true"></i> */}
+						<ArrowDownIcon fontSize="1.2rem" />
+					</Button>
+				</Box>
 			</Box>
 		</form>
 	)

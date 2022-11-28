@@ -1,4 +1,6 @@
 import React from 'react'
+import { Button, Flex, Link, Text } from '@chakra-ui/react'
+import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
 const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 	const paginateHandler = pageNumber => setCurrentPage(pageNumber)
@@ -6,17 +8,18 @@ const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 	const prevPage = () => setCurrentPage(prev => prev - 1)
 
 	return (
-		<ul className='pagination'>
-			<button
+		<Flex className='pagination'>
+			<Button
 				className='btn btn-primary'
 				disabled={currentPage === pageNumbers[0]}
 				onClick={prevPage}>
-				<i className="fa fa-angle-double-left" aria-hidden="true" />
-			</button>
+				<ArrowLeftIcon />
+				{/* <i className="fa fa-angle-double-left" aria-hidden="true" /> */}
+			</Button>
 			{
 				pageNumbers.map(number => (
-					<li className={`page-item ${currentPage === number ? 'page-item-current' : ''}`} key={number}>
-						<a
+					<Text className={`page-item ${currentPage === number ? 'page-item-current' : ''}`} key={number}>
+						<Link
 							href="#"
 							className='page-link'
 							onClick={(e) => {
@@ -25,17 +28,18 @@ const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 							}}
 						>
 							{number}
-						</a>
-					</li>
+						</Link>
+					</Text>
 				))
 			}
-			<button
+			<Button
 				className='btn btn-primary'
 				disabled={currentPage === pageNumbers.length}
 				onClick={nextPage}>
-				<i className="fa fa-angle-double-right" aria-hidden="true" />
-			</button>
-		</ul>
+				<ArrowRightIcon />
+				{/* <i className="fa fa-angle-double-right" aria-hidden="true" /> */}
+			</Button>
+		</Flex>
 	)
 }
 
