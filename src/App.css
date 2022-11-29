@@ -9,7 +9,7 @@ ul {
   margin: 0;
 }
 body {
-  background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  background: linear-gradient(120deg, #f6d365 0%, #f17a59 100%);
   color: white;
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
@@ -28,18 +28,11 @@ body {
   background-position: 80% 0;
   }
 }
-/* ._container {
-  width: 100%;
-  max-width: 1200px;
-  padding: 0 15px;
-  margin: 0 auto;
-} */
 header {
   font-size: 1rem;
   display: flex;
   flex-direction: column;
 }
-
 header,
 form {
   min-height: 20vh;
@@ -47,25 +40,6 @@ form {
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-
-}
-header h1 {
-  margin-top: 3rem;
-}
-form input,
-form .todo-button {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: none;
-  background: white;
-}
-form input {
-  outline: none;
-}
-.form-wrapper {
-	border: 2px solid transparent;
-	border-radius: 0.475rem;
-	position: relative;
 }
 .form-wrapper.input-wrong {
 	animation-name: invalidInputBorder;
@@ -102,39 +76,18 @@ form input {
 	animation-name: invalidInputText;
 	animation-duration: 2.2s;
 }
-form .todo-button {
-  color: #ff6f47;
-  background: #f7fffe;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-form .todo-button:hover {
-  background: #ff6f47;
-  color: white;
-}
-.sort-wrapper button.sort-active {
+
+button.sort-active {
 	background: #ff6f47;
   color: white;
   transition: transform 0.3s ease-in-out;
 }
 
-.sort-wrapper .sort-active svg {
+.sort-active svg {
   transition: transform 0.3s ease-in-out;
 }
-.sort-wrapper .sort-active-up svg {
+.sort-active-up svg {
   transform: rotate(180deg);
-}
-.todo-container {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  padding-bottom: 2rem;
-}
-
-.todo-list {
-  list-style: none;
-  width: 100%;
-  max-width: 51rem;
 }
 
 .todo {
@@ -150,9 +103,6 @@ form .todo-button:hover {
   width: 100%;
   font-family: 'Sono', sans-serif;
 }
-.filter-todo {
-  padding: 0.5rem;
-}
 
 .trash-btn,
 .complete-btn,
@@ -165,22 +115,6 @@ form .todo-button:hover {
   cursor: pointer;
   font-size: 1rem;
   margin: 0;
-}
-.complete-btn {
-  background: rgb(11, 212, 162);
-}
-.uncomplete-btn {
-  background: #d33f3f;
-}
-.btn-primary {
-	font-size: 0.8rem;
-	padding: 0.3rem 0.5rem;
- }
-.btn-primary:first-child {
-	border-radius: 0.3rem 0 0 0.3rem;
-}
-.btn-primary:last-child {
-	border-radius: 0 0.3rem 0.3rem 0;
 }
 .todo-item {
   padding: 0rem 0.5rem;
@@ -199,6 +133,13 @@ form .todo-button:hover {
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s ease-in-out;
 }
+.todo button {
+  opacity: 0.9;
+  transition: opacity 0.3s ease-in-out;
+}
+.todo button:hover {
+  opacity: 1;
+}
 .todo-completed {
   opacity: 0.7;
 }
@@ -212,203 +153,39 @@ form .todo-button:hover {
 .todo-item-border:focus {
  border-color: #ff6f47 !important;
 }
-.todo-item-date {
-  font-weight: 400;
-    font-size: 1.2rem;
-    letter-spacing: -1px;
-    margin-right: 10px;
-}
-.fa-trash,
-.fa-check,
-.fa-pencil {
-  pointer-events: none;
-}
-.fa-times {
-  font-size: 1.2rem;
-    padding: 0 0.1rem;
-}
-
-.fall {
-  transform: translateY(10rem) rotateZ(20deg);
-  opacity: 0;
-}
-
 .completed {
   text-decoration: line-through;
   opacity: 0.5;
 }
 
 
-/* Arrow */
-/* .select::after {
-  content: "\25BC";
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  right: 0;
-  min-width: 1.5rem;
-  font-size: 1em;
-  height: 100%;
-  background: #ff6f47;
-  cursor: pointer;
-  pointer-events: none;
-} */
-.pagination {
-  justify-content: center;
-}
-.sort-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-left: 1rem;
-}
-.sort-wrapper p {
-  margin-right: 15px;
-  cursor: pointer;
-  color: #fff;
-}
 .page-item-current a {
   background-color: #dee2e6;
 }
-.filtering-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
+
 /* Chakra Changing styles */
 
 .chakra-select__icon-wrapper {
-	/* content: "\25BC"; */
-	/* position: absolute; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* top: 0; */
-	/* right: 0; */
 	min-width: 1.5rem;
 	font-size: 1em;
 	height: 100%;
 	background: #ff6f47;
 	cursor: pointer;
 	pointer-events: none;
-}
-.chakra-select {
-	color: #ff6f47;
-	font-family: "Poppins", sans-serif;
-	cursor: pointer;
-	width: 10rem !important;
-	padding-bottom: 0.5rem !important;
-}
-.chakra-select__icon-wrapper {
-	right: 0 !important;
+  right: 0 !important;
 	border-top-right-radius: 0.375rem;
 	border-bottom-right-radius: 0.375rem;
 	color: #fff !important;
 }
-/*CUSTOM SELECTOR */
-/* select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	-ms-appearance: none;
-	appearance: none;
-	outline: 0;
-	box-shadow: none;
-	border: 0 ;
-	background-image: none;
- } */
- 
- /* Custom Select */
- /* .select {
-	font-size: 1rem;
-	position: relative;
-	overflow: hidden;
- 
- } */
- /* select {
-	color: #ff6f47;
-	font-family: "Poppins", sans-serif;
-	cursor: pointer;
-	width: 10rem;
- } */
 
-@media  screen and (max-width: 49.98rem) {
+@media  screen and (max-width: 47.98rem) {
   form {
     max-width: 23.5rem;
     width: 100%;
     margin: 0 auto;
     flex-direction: column;
-  }
-  .form-wrapper {
-	width: 100%;
-	text-align: center;
-  }
-  .form-wrapper input {
-	width: 88%;
-  }
-  .filtering-wrapper {
-    width: 100%;
-	 justify-content: space-around;
-  }
-  .trash-btn, 
-  .complete-btn, 
-  .edit-btn {
-    padding: 0.6rem;
-  }
-}
-@media screen and (max-width: 39.98rem) {
-  form input {
-    max-width: 80%;
-  }
-  .form-wrapper {
-    text-align: center;
-  }
-  .filtering-wrapper {
-    width: 85%;
-	 justify-content: space-between;
-  }
-  .sort-wrapper p {
-    font-size: 0.9rem;
-    line-height: 1rem;
-    margin-right: 5px;
-  }
-  .button-wrapper {
-    margin-top: -7px;
-  }
-  .trash-btn, 
-  .complete-btn, 
-  .edit-btn {
-    font-size: 0.6rem;
-  }
-  .todo-item {
-    font-size: 1.3rem;
-  }
-  form input,
-  form button {
-  padding: 0.3rem;
-  font-size: 0.8rem;
-  border: none;
-  background: white;
-  }
-  .filter-todo {
-  padding: 0.2rem 0.2rem 0.2rem 0.5rem;
-  font-size: 0.8rem;
-  }
-  option {
-    min-height: initial;
-    height: 0.5rem;
-  }
-  .page-link {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.6rem;
-  }
-
-  .select::after {
-	font-size: 0.7rem;
-  }
-  .todo-item-date {
-	font-weight: 600;
-	font-size: 0.9rem;
   }
 }

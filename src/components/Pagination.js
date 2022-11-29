@@ -8,20 +8,39 @@ const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 	const prevPage = () => setCurrentPage(prev => prev - 1)
 
 	return (
-		<Flex className='pagination'>
+		<Flex justify="center" >
 			<Button
-				className='btn btn-primary'
 				disabled={currentPage === pageNumbers[0]}
-				onClick={prevPage}>
-				<ArrowLeftIcon />
-				{/* <i className="fa fa-angle-double-left" aria-hidden="true" /> */}
+				onClick={prevPage}
+				h="100%"
+				bg="#0d6efdbf"
+				px="0.5rem"
+				py="0"
+				fontSize="xs"
+				minW={7}
+				color="#fff"
+				borderRadius="0.3rem 0 0 0.3rem"
+				_hover={{bg: "#0d6efd"}}
+				>
+				<ArrowLeftIcon 
+					h="auto"
+					py={2}
+				/>
 			</Button>
 			{
 				pageNumbers.map(number => (
-					<Text className={`page-item ${currentPage === number ? 'page-item-current' : ''}`} key={number}>
+					<Text className={`${currentPage === number ? 'page-item-current' : ''}`} key={number}>
 						<Link
 							href="#"
-							className='page-link'
+							px={2}
+							py=".35rem"
+							bg="#fff"
+							lineHeight={1.8}
+							color="#0d6efdbf"
+							borderRight="1px solid #00000024"
+							_hover={{
+								textDecoration: "none", bg: "#dee2e6cf"
+							}}
 							onClick={(e) => {
 								e.preventDefault()
 								paginateHandler(number)
@@ -33,11 +52,22 @@ const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 				))
 			}
 			<Button
-				className='btn btn-primary'
 				disabled={currentPage === pageNumbers.length}
-				onClick={nextPage}>
-				<ArrowRightIcon />
-				{/* <i className="fa fa-angle-double-right" aria-hidden="true" /> */}
+				onClick={nextPage}
+				h="100%"
+				bg="#0d6efdbf"
+				px="0.5rem"
+				py="0"
+				fontSize="xs"
+				minW={7}
+				color="#fff"
+				borderRadius="0 0.3rem 0.3rem 0"
+				_hover={{bg: "#0d6efd"}}
+				>
+				<ArrowRightIcon 
+					h="auto"
+					py={2}
+				/>
 			</Button>
 		</Flex>
 	)

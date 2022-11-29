@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
-const theme = extendTheme({
+const customTheme = extendTheme({
 	styles: {
 		global: () => ({
 			body: {
@@ -26,13 +26,19 @@ const theme = extendTheme({
 				}
 			}
 		}
+	},
+	breakpoints: {
+		sm: "319.98px",
+		md: "767.98px",
+		lg: "959.98px",
+		xl: "1199.98px"
 	}
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
-		<ChakraProvider theme={theme}>
+		<ChakraProvider theme={customTheme}>
 			<App />
 		</ChakraProvider>
 	</React.StrictMode>

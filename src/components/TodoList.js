@@ -4,8 +4,15 @@ import { Flex, List } from '@chakra-ui/react'
 
 const ToDoList = ({ todos, setTodos, getTodos, setCurrentPage }) => {
 	return (
-		<Flex justifyContent="center" alignItems="center" pb="2rem">
-			<List className='todo-list'>
+		<Flex 
+			justifyContent="center" 
+			alignItems="center" 
+			py={{sm: "1rem", md: "1.5rem"}}
+		>
+			<List
+				width= "100%"
+				maxWidth= "51rem"
+			>
 				{(todos.map(todo => (
 					<Todo
 						setTodos={setTodos}

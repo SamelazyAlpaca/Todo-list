@@ -5,7 +5,7 @@ import Form from './components/Form';
 import ToDoList from './components/TodoList';
 import Loader from './components/Loader';
 import Pagination from './components/Pagination';
-import { Container, Center } from '@chakra-ui/react'
+import { Container, Center, Heading } from '@chakra-ui/react'
 
 function App() {
 	const [todos, setTodos] = useState([])
@@ -28,16 +28,20 @@ function App() {
 				setIsLoading(false)
 				switch (error.response.status) {
 					case 400:
-						console.log('Error response:', error.response);
-						alert(error.response.data.message)
+						console.log('Error 400:', error.response.data.message);
+						alert('Запрос не может быть обработан, возможно где-то опечатка')
 						break;
 					case 404:
-						console.log('Error request:', error.response);
-						alert(error.response.statusText)
+						console.log('Error 404:', error.response.statusText);
+						alert('Не удалось загрузить задачи, попробуйте позже')
+						break;
+					case 422:
+						console.log('Error 422:' , error.response.data.message);
+						alert('Не получилось обработать запрос, попробуйте позже')
 						break;
 					case 500:
-						console.log(error.request);
-						alert(error.response.data)
+						console.log('Error 500',error.response);
+						alert('Сервер не может выполнить запрос, попробуйте позже')
 						break;
 				}
 			})
@@ -53,15 +57,14 @@ function App() {
 	useEffect(() => {
 		getTodos()
 	}, [currentPage, status, selectedSort]);
-	// width: 100%;
-	// max-width: 1200px;
-	// padding: 0 15px;
-	// margin: 0 auto;
 	return (
-		<Center className="App">
+		<Center>
 			<Container maxW="1200px" width="100%" padding="0 15px" >
 				<header>
-					<h1>Todo List</h1>
+					<Heading
+						color="#fff"
+						marginTop= "3rem"
+					>Todo List</Heading>
 					<Form
 						todos={todos}
 						getTodos={getTodos}
@@ -83,7 +86,7 @@ function App() {
 					/>
 				)}
 				{!todos.length && !isLoading
-					? <h2 style={{ marginTop: "2rem", padding: "1rem", textAlign: "center" }}>Список дел пуст... Самое время его пополнить!</h2>
+					? <h2 style={{ color: "#fff", marginTop: "2rem", padding: "1rem", textAlign: "center" }}>Список дел пуст... Самое время его пополнить!</h2>
 					: null
 				}
 				{todosCount > todosPerPage && !isLoading ? (
