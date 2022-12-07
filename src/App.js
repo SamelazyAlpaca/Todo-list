@@ -6,45 +6,48 @@ import ToDoList from './components/TodoList';
 import Loader from './components/Loader';
 import Pagination from './components/Pagination';
 import { Container, Center, Heading } from '@chakra-ui/react'
+import { getAllTasks } from './services/axios-instance';
 
 function App() {
 	const [todos, setTodos] = useState([])
-	const [status, setStatus] = useState('')
+	const [status, setStatus] = useState('undone')
 	const [isLoading, setIsLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
 	const [selectedSort, setSelectedSort] = useState('desc')
 	const [todosCount, setTodosCount] = useState()
 	const todosPerPage = 5
+	// https://todo-list-dohs.onrender.com/user/tasks?filterBy=undone&order=desc&page=1&pp=5
 
-	const getTodos = () => {
-		setIsLoading(true)
-		axios.get(`${process.env.REACT_APP_BASE_URL}tasks/${process.env.REACT_APP_userId}?filterBy=${status}&order=${selectedSort}&pp=${todosPerPage}&page=${currentPage}`)
-			.then((response) => {
-				setTodosCount(response.data.count)
-				setTodos(response.data.tasks)
-				setIsLoading(false)
-			})
-			.catch((error) => {
-				setIsLoading(false)
-				switch (error.response.status) {
-					case 400:
-						console.log('Error 400:', error.response.data.message);
-						alert('Запрос не может быть обработан, возможно где-то опечатка')
-						break;
-					case 404:
-						console.log('Error 404:', error.response.statusText);
-						alert('Не удалось загрузить задачи, попробуйте позже')
-						break;
-					case 422:
-						console.log('Error 422:' , error.response.data.message);
-						alert('Не получилось обработать запрос, попробуйте позже')
-						break;
-					case 500:
-						console.log('Error 500',error.response);
-						alert('Сервер не может выполнить запрос, попробуйте позже')
-						break;
-				}
-			})
+	const getTodos = async () => {
+		try {
+			setIsLoading(true)
+			const { data } = await getAllTasks({ status, selectedSort, todosPerPage, currentPage })
+
+			setTodosCount(data.count)
+			setTodos(data.tasks)
+			setIsLoading(false)
+		} catch (error) {
+			console.log(error);
+			setIsLoading(false)
+			switch (error.response?.status) {
+				case 400:
+					console.log('Error 400:', error.response.data.message);
+					alert('Запрос не может быть обработан, возможно где-то опечатка')
+					break;
+				case 404:
+					console.log('Error 404:', error.response.statusText);
+					alert('Не удалось загрузить задачи, попробуйте позже')
+					break;
+				case 422:
+					console.log('Error 422:', error.response.data.message);
+					alert('Не получилось обработать запрос, попробуйте позже')
+					break;
+				case 500:
+					console.log('Error 500', error.response);
+					alert('Сервер не может выполнить запрос, попробуйте позже')
+					break;
+			}
+		}
 	}
 
 	const pageNumbers = []
@@ -63,7 +66,7 @@ function App() {
 				<header>
 					<Heading
 						color="#fff"
-						marginTop= "3rem"
+						marginTop="3rem"
 					>Todo List</Heading>
 					<Form
 						todos={todos}

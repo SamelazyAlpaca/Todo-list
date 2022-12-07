@@ -7,72 +7,64 @@ import {
 	ListItem,
 	Text,
 } from '@chakra-ui/react'
-import { 
-	EditIcon, 
-	DeleteIcon, 
-	CheckIcon, 
-	CloseIcon 
+import {
+	EditIcon,
+	DeleteIcon,
+	CheckIcon,
+	CloseIcon
 } from '@chakra-ui/icons'
+import { deleteOneTask, patchCompleteTask, patchNameTask } from '../services/axios-instance'
 
 const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
 
-	const deleteHandler = () => {
-		axios.delete(`${process.env.REACT_APP_BASE_URL}task/${process.env.REACT_APP_userId}/${todo.uuid}`)
-			.then(() => {
-				getTodos()
-				if (todos.length === 1) {
-					setCurrentPage(prev => prev - 1)
-				}
-			})
-			.catch((error) => {
-				switch (error.response.status) {
-					case 404:
-						console.log('Error 404:', error.response.statusText);
-						alert('Задача не найдена, не получилось удалить')
-						break;
-					case 422:
-						console.log('Error 422:' , error.response.data.message);
-						alert('Не получилось обработать запрос, попробуйте позже')
-						break;
-					case 500:
-						console.log('Error 500',error.response);
-						alert('Сервер не может выполнить запрос, попробуйте позже')
-						break;
-				}
-			})
+	const deleteHandler = async () => {
+		try {
+			await deleteOneTask(todo)
+			getTodos()
+			if (todos.length === 1) {
+				setCurrentPage(prev => prev - 1)
+			}
+		} catch (error) {
+			switch (error.response.status) {
+				case 404:
+					console.log('Error 404:', error.response.statusText);
+					alert('Задача не найдена, не получилось удалить')
+					break;
+				case 422:
+					console.log('Error 422:', error.response.data.message);
+					alert('Не получилось обработать запрос, попробуйте позже')
+					break;
+				case 500:
+					console.log('Error 500', error.response);
+					alert('Сервер не может выполнить запрос, попробуйте позже')
+					break;
+			}
+		}
 	}
 
-	const completeHandler = () => {
-		axios.patch(`${process.env.REACT_APP_BASE_URL}task/${process.env.REACT_APP_userId}/${todo.uuid}`,
-			{
-				name: inputFocus.current.value,
-				done: !todo.done,
-				createdAt: todo.createdAt,
-				updatedAt: new Date(),
-			})
-			.then(() => {
-				getTodos()
-			})
-			.catch((error) => {
-				switch (error.response.status) {
-					case 404:
-						console.log('Error 404:', error.response.statusText);
-						alert('Не получилось редактировать задачу')
-						break;
-					case 422:
-						console.log('Error 422:' , error.response.data.message);
-						alert('Не получилось обработать запрос, попробуйте позже')
-						break;
-					case 500:
-						console.log('Error 500',error.response);
-						alert('Сервер не может выполнить запрос, попробуйте позже')
-						break;
-				}
-			})
-
+	const completeHandler = async () => {
+		try {
+			await patchCompleteTask(todo, inputFocus)
+			getTodos()
+		} catch (error) {
+			switch (error.response.status) {
+				case 404:
+					console.log('Error 404:', error.response.statusText);
+					alert('Не получилось редактировать задачу')
+					break;
+				case 422:
+					console.log('Error 422:', error.response.data.message);
+					alert('Не получилось обработать запрос, попробуйте позже')
+					break;
+				case 500:
+					console.log('Error 500', error.response);
+					alert('Сервер не может выполнить запрос, попробуйте позже')
+					break;
+			}
+		}
 	}
 
 	const editHandler = (e) => {
@@ -84,38 +76,31 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 		})
 	}
 
-	const keydownBlurInput = (e) => {
+	const keydownBlurInput = async (e) => {
 		if (e.target.readOnly === false && e.key === 'Escape') {
 			inputFocus.current.value = e.target.defaultValue
 			setReadOnly(true)
 			e.target.blur()
 		} else if (e.target.readOnly === false && e.key === 'Enter') {
-			axios.patch(`${process.env.REACT_APP_BASE_URL}task/${process.env.REACT_APP_userId}/${todo.uuid}`,
-				{
-					name: inputFocus.current.value,
-					done: todo.done,
-					createdAt: todo.createdAt,
-					updatedAt: new Date(),
-				})
-				.then(() => {
-					getTodos()
-				})
-				.catch((error) => {
-					switch (error.response.status) {
-						case 404:
-							console.log('Error 404:', error.response.statusText);
-							alert('Не получилось редактировать задачу')
-							break;
-						case 422:
-							console.log('Error 422:' , error.response.data.message);
-							alert('Не получилось обработать запрос, попробуйте позже')
-							break;
-						case 500:
-							console.log('Error 500',error.response);
-							alert('Сервер не может выполнить запрос, попробуйте позже')
-							break;
-					}
-				})
+			try {
+				await patchNameTask(todo, inputFocus)
+				getTodos()
+			} catch (error) {
+				switch (error.response.status) {
+					case 404:
+						console.log('Error 404:', error.response.statusText);
+						alert('Не получилось редактировать задачу')
+						break;
+					case 422:
+						console.log('Error 422:', error.response.data.message);
+						alert('Не получилось обработать запрос, попробуйте позже')
+						break;
+					case 500:
+						console.log('Error 500', error.response);
+						alert('Сервер не может выполнить запрос, попробуйте позже')
+						break;
+				}
+			}
 			e.target.blur()
 		}
 	}
@@ -126,8 +111,8 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 	}
 
 	return (
-		<ListItem 
-			borderRadius="0.375rem" 
+		<ListItem
+			borderRadius="0.375rem"
 			className={`todo ${todo.done ? 'todo-completed' : ''}`}>
 			<Box>
 				<Button
@@ -138,11 +123,11 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 					h="100%"
 					minW="none"
 					minH="none"
-					maxW={{sm: 4, md: 12}}
-					maxH={{sm: 12, md: 14}}
+					maxW={{ sm: 4, md: 12 }}
+					maxH={{ sm: 12, md: 14 }}
 					borderLeftRadius="0.375rem"
 					borderRightRadius="0"
-					_hover={{background: ''}}
+					_hover={{ background: '' }}
 				>
 					<EditIcon />
 				</Button>
@@ -154,10 +139,10 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 					w="100%"
 					minW="none"
 					minH="none"
-					maxW={{sm: 4, md: 12}}
-					maxH={{sm: 12, md: 14}}
+					maxW={{ sm: 4, md: 12 }}
+					maxH={{ sm: 12, md: 14 }}
 					borderRadius="none"
-					_hover={{background: ''}}
+					_hover={{ background: '' }}
 				>
 					{todo.done
 						? <CloseIcon />
@@ -182,12 +167,12 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 				className={`todo-item ${todo.done ? "completed" : ''} ${readOnly ? '' : 'todo-item-border'}`}
 				defaultValue={todo.name}
 			/>
-			<Text 
-				fontSize={{sm: "0.9rem", md: "1rem", lg: "1.2rem"}}
-				fontWeight= "400"
-    			letterSpacing= "-1px"
-    			marginRight= "10px"
-				>
+			<Text
+				fontSize={{ sm: "0.9rem", md: "1rem", lg: "1.2rem" }}
+				fontWeight="400"
+				letterSpacing="-1px"
+				marginRight="10px"
+			>
 				{('0' + (+new Date(todo.createdAt).getDate())).slice(-2) + '-' + ('0' + (+new Date(todo.createdAt).getMonth() + 1)).slice(-2) + '-' + +new Date(todo.createdAt).getFullYear()}
 			</Text>
 			<Box>
@@ -201,10 +186,10 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 					h="100%"
 					minW="none"
 					minH="none"
-					maxW={{sm: 4, md: 12}}
-					maxH={{sm: 12, md: 14}}
+					maxW={{ sm: 4, md: 12 }}
+					maxH={{ sm: 12, md: 14 }}
 					color="#fff"
-					_hover={{background: ''}}
+					_hover={{ background: '' }}
 				>
 					<DeleteIcon />
 				</Button>
