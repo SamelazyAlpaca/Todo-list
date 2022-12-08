@@ -18,7 +18,7 @@ export const getAllTasks = (response) =>
 
 
 export const postOneTask = (ref) =>
-	instance.post('/user/tasks/post/', {
+	instance.post('/user/tasks/', {
 		name: ref.current.value.trim(),
 		done: false,
 		createdAt: new Date(),
@@ -26,7 +26,7 @@ export const postOneTask = (ref) =>
 	})
 
 export const patchNameTask = (todo, inputFocus) =>
-	instance.patch(`/user/tasks/patch/${todo.uuid}`, {
+	instance.patch(`/user/tasks/${todo.uuid}`, {
 		name: inputFocus.current.value,
 		done: todo.done,
 		createdAt: todo.createdAt,
@@ -35,7 +35,7 @@ export const patchNameTask = (todo, inputFocus) =>
 
 
 export const patchCompleteTask = (todo, inputFocus) =>
-	instance.patch(`/user/tasks/patch/${todo.uuid}`, {
+	instance.patch(`/user/tasks/${todo.uuid}`, {
 		name: inputFocus.current.value,
 		done: !todo.done,
 		createdAt: todo.createdAt,

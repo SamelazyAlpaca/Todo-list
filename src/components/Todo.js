@@ -46,6 +46,7 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 	}
 
 	const completeHandler = async () => {
+		console.log(todo);
 		try {
 			await patchCompleteTask(todo, inputFocus)
 			getTodos()
