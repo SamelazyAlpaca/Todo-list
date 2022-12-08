@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/icons'
 import { deleteOneTask, patchCompleteTask, patchNameTask } from '../services/axios-instance'
 
-const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
+const Todo = ({ setError, todo, todos, getTodos, setCurrentPage }) => {
 
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
@@ -27,43 +27,16 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 				setCurrentPage(prev => prev - 1)
 			}
 		} catch (error) {
-			switch (error.response.status) {
-				case 404:
-					console.log('Error 404:', error.response.statusText);
-					alert('Задача не найдена, не получилось удалить')
-					break;
-				case 422:
-					console.log('Error 422:', error.response.data.message);
-					alert('Не получилось обработать запрос, попробуйте позже')
-					break;
-				case 500:
-					console.log('Error 500', error.response);
-					alert('Сервер не может выполнить запрос, попробуйте позже')
-					break;
-			}
+			setError('Задача уже удалена!')
 		}
 	}
 
 	const completeHandler = async () => {
-		console.log(todo);
 		try {
 			await patchCompleteTask(todo, inputFocus)
 			getTodos()
 		} catch (error) {
-			switch (error.response.status) {
-				case 404:
-					console.log('Error 404:', error.response.statusText);
-					alert('Не получилось редактировать задачу')
-					break;
-				case 422:
-					console.log('Error 422:', error.response.data.message);
-					alert('Не получилось обработать запрос, попробуйте позже')
-					break;
-				case 500:
-					console.log('Error 500', error.response);
-					alert('Сервер не может выполнить запрос, попробуйте позже')
-					break;
-			}
+			setError(error.response.data.message)
 		}
 	}
 
@@ -81,34 +54,20 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 			inputFocus.current.value = e.target.defaultValue
 			setReadOnly(true)
 			e.target.blur()
-		} else if (e.target.readOnly === false && e.key === 'Enter') {
+		}
+		if (e.target.readOnly === false && e.key === 'Enter') {
 			try {
 				await patchNameTask(todo, inputFocus)
-				getTodos()
+				await getTodos()
+				setReadOnly(true)
+				e.target.blur()
 			} catch (error) {
-				switch (error.response.status) {
-					case 404:
-						console.log('Error 404:', error.response.statusText);
-						alert('Не получилось редактировать задачу')
-						break;
-					case 422:
-						console.log('Error 422:', error.response.data.message);
-						alert('Не получилось обработать запрос, попробуйте позже')
-						break;
-					case 500:
-						console.log('Error 500', error.response);
-						alert('Сервер не может выполнить запрос, попробуйте позже')
-						break;
-				}
+				setError(error.response.data.message)
 			}
-			e.target.blur()
+
 		}
 	}
 
-	const inputOnBlur = (e) => {
-		inputFocus.current.value = e.target.defaultValue
-		setReadOnly(true)
-	}
 
 	return (
 		<ListItem
@@ -161,7 +120,6 @@ const Todo = ({ todo, todos, getTodos, setCurrentPage }) => {
 				h={8}
 				cursor="pointer"
 				onKeyDown={keydownBlurInput}
-				onBlur={inputOnBlur}
 				ref={inputFocus}
 				readOnly={readOnly}
 				className={`todo-item ${todo.done ? "completed" : ''} ${readOnly ? '' : 'todo-item-border'}`}

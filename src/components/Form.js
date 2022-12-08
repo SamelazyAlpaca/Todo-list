@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/icons'
 import { postOneTask } from '../services/axios-instance';
 
-const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
+const Form = ({ setError, getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
 	const ref = useRef(null)
 	const submitTodoHandler = async (e) => {
 		e.preventDefault()
@@ -22,24 +22,7 @@ const Form = ({ getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPa
 				await postOneTask(ref)
 				getTodos()
 			} catch (error) {
-				switch (error.response.status) {
-					case 400:
-						console.log('Error 400:', error.response.data.message);
-						alert('Похоже вы ввели некорректный текст')
-						break;
-					case 404:
-						console.log('Error 404:', error.response.statusText);
-						alert('Не получилось создать задачу, возможно такая уже есть')
-						break;
-					case 422:
-						console.log('Error 422:', error.response.data.message);
-						alert('Название не должно быть пустым или меньше 1 символа!')
-						break;
-					case 500:
-						console.log('Error 500', error.response);
-						alert('Сервер не может выполнить запрос, попробуйте позже')
-						break;
-				}
+				setError(error.response.data.message)
 			}
 			ref.current.value = ''
 		} else {

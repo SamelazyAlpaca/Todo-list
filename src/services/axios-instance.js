@@ -16,7 +16,6 @@ export const getAllTasks = (response) =>
 		}
 	)
 
-
 export const postOneTask = (ref) =>
 	instance.post('/user/tasks/', {
 		name: ref.current.value.trim(),
@@ -41,6 +40,5 @@ export const patchCompleteTask = (todo, inputFocus) =>
 		createdAt: todo.createdAt,
 		updatedAt: new Date(),
 	})
-
 
 export const deleteOneTask = (todo) => instance.delete(`/user/tasks/${todo.uuid}`)
