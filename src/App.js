@@ -4,7 +4,7 @@ import Form from './components/Form';
 import ToDoList from './components/TodoList';
 import Loader from './components/Loader';
 import Pagination from './components/Pagination';
-import { Container, Center, Heading, Alert, AlertIcon, AlertTitle } from '@chakra-ui/react'
+import { Container, Center, Heading, Alert, AlertIcon, AlertTitle, Text } from '@chakra-ui/react'
 import { getAllTasks } from './services/axios-instance';
 import { CloseIcon } from '@chakra-ui/icons';
 
@@ -30,13 +30,13 @@ function App() {
 			setError(error.response.data.message)
 		}
 	}
-
+	console.log(todosCount);
 	const pageNumbers = []
 	const paginationMemo = useMemo(() => {
 		for (let i = 1; i <= Math.ceil(todosCount / todosPerPage); i++) {
 			pageNumbers.push(i)
 		}
-	}, [todos, status, selectedSort, currentPage, error])
+	}, [todos, status, currentPage])
 
 	const errorClose = () => {
 		setError('')
@@ -72,7 +72,11 @@ function App() {
 						<Heading
 							color="#fff"
 							marginTop="3rem"
-						>Todo List</Heading>
+						>
+							<Text>
+								Todo List
+							</Text>
+						</Heading>
 						<Form
 							todos={todos}
 							getTodos={getTodos}
@@ -101,7 +105,7 @@ function App() {
 						? <h2 style={{ color: "#fff", marginTop: "2rem", padding: "1rem", textAlign: "center" }}>Список дел пуст... Самое время его пополнить!</h2>
 						: null
 					}
-					{todosCount > todosPerPage ? (
+					{todosCount > todosPerPage && !isLoading ? (
 						<Pagination
 							currentPage={currentPage}
 							setCurrentPage={setCurrentPage}
@@ -111,7 +115,6 @@ function App() {
 				</Container>
 			</Center>
 		</>
-
 	);
 }
 
