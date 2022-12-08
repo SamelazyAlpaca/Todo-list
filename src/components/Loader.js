@@ -1,4 +1,3 @@
-// import Spinner from 'react-bootstrap/Spinner'
 import { Spinner } from '@chakra-ui/react'
 
 const Loader = () => {

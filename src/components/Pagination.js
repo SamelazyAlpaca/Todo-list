@@ -20,9 +20,9 @@ const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 				minW={7}
 				color="#fff"
 				borderRadius="0.3rem 0 0 0.3rem"
-				_hover={{bg: "#0d6efd"}}
-				>
-				<ArrowLeftIcon 
+				_hover={{ bg: "#0d6efd" }}
+			>
+				<ArrowLeftIcon
 					h="auto"
 					py={2}
 				/>
@@ -35,7 +35,7 @@ const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 							px={2}
 							py=".35rem"
 							bg="#fff"
-							lineHeight={1.8}
+							lineHeight={1.9}
 							color="#0d6efdbf"
 							borderRight="1px solid #00000024"
 							_hover={{
@@ -62,9 +62,9 @@ const Pagination = ({ currentPage, pageNumbers, setCurrentPage }) => {
 				minW={7}
 				color="#fff"
 				borderRadius="0 0.3rem 0.3rem 0"
-				_hover={{bg: "#0d6efd"}}
-				>
-				<ArrowRightIcon 
+				_hover={{ bg: "#0d6efd" }}
+			>
+				<ArrowRightIcon
 					h="auto"
 					py={2}
 				/>

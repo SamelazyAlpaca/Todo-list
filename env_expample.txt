@@ -1,2 +1,0 @@
-REACT_APP_BASE_URL = "string"
-REACT_APP_userId = "number"

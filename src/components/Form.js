@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useRef } from 'react'
 import {
 	Input,
@@ -11,7 +10,6 @@ import {
 } from '@chakra-ui/react';
 import {
 	ArrowDownIcon,
-	AddIcon,
 } from '@chakra-ui/icons'
 import { postOneTask } from '../services/axios-instance';
 

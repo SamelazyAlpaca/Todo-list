@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import axios from 'axios'
 import './App.css';
 import Form from './components/Form';
 import ToDoList from './components/TodoList';
@@ -10,13 +9,12 @@ import { getAllTasks } from './services/axios-instance';
 
 function App() {
 	const [todos, setTodos] = useState([])
-	const [status, setStatus] = useState('undone')
+	const [status, setStatus] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
 	const [selectedSort, setSelectedSort] = useState('desc')
 	const [todosCount, setTodosCount] = useState()
 	const todosPerPage = 5
-	// https://todo-list-dohs.onrender.com/user/tasks?filterBy=undone&order=desc&page=1&pp=5
 
 	const getTodos = async () => {
 		try {
