@@ -35,7 +35,7 @@ function App() {
 		for (let i = 1; i <= Math.ceil(todosCount / todosPerPage); i++) {
 			pageNumbers.push(i)
 		}
-	}, [todos, status, currentPage])
+	}, [todos, status, currentPage, error])
 
 	const errorClose = () => {
 		setError('')
