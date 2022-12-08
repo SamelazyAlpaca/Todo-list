@@ -30,7 +30,6 @@ function App() {
 			setError(error.response.data.message)
 		}
 	}
-	console.log(todosCount);
 	const pageNumbers = []
 	const paginationMemo = useMemo(() => {
 		for (let i = 1; i <= Math.ceil(todosCount / todosPerPage); i++) {
