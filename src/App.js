@@ -2,9 +2,16 @@ import React, { useState, useEffect, useMemo } from 'react'
 import './App.css';
 import Form from './components/Form';
 import ToDoList from './components/TodoList';
-import Loader from './components/Loader';
 import Pagination from './components/Pagination';
-import { Container, Center, Heading, Alert, AlertIcon, AlertTitle, Text } from '@chakra-ui/react'
+import {
+	Container,
+	Center,
+	Heading,
+	Alert,
+	AlertIcon,
+	AlertTitle,
+	Text
+} from '@chakra-ui/react'
 import { getAllTasks } from './services/axios-instance';
 import { CloseIcon } from '@chakra-ui/icons';
 
@@ -30,12 +37,6 @@ function App() {
 			setError(error.response.data.message)
 		}
 	}
-	const pageNumbers = []
-	const paginationMemo = useMemo(() => {
-		for (let i = 1; i <= Math.ceil(todosCount / todosPerPage); i++) {
-			pageNumbers.push(i)
-		}
-	}, [todos, status, currentPage, error])
 
 	const errorClose = () => {
 		setError('')
@@ -64,7 +65,6 @@ function App() {
 					/>
 				</Alert>
 			</Center>
-
 			<Center>
 				<Container maxW="1200px" width="100%" padding="0 15px" >
 					<header>
@@ -85,22 +85,18 @@ function App() {
 							setSelectedSort={setSelectedSort}
 							setCurrentPage={setCurrentPage}
 							setError={setError}
+							isLoading={isLoading}
 						/>
 					</header>
-					<Center h="32px">
-						{isLoading
-							? <Loader />
-							: null
-						}
-					</Center>
 					<ToDoList
 						todos={todos}
 						setTodos={setTodos}
 						getTodos={getTodos}
 						setCurrentPage={setCurrentPage}
 						setError={setError}
+						isLoading={isLoading}
 					/>
-					{!todos.length && !isLoading
+					{!todosCount && !isLoading
 						? <h2 style={{ color: "#fff", marginTop: "2rem", padding: "1rem", textAlign: "center" }}>Список дел пуст... Самое время его пополнить!</h2>
 						: null
 					}
@@ -108,7 +104,11 @@ function App() {
 						<Pagination
 							currentPage={currentPage}
 							setCurrentPage={setCurrentPage}
-							pageNumbers={pageNumbers}
+							status={status}
+							todos={todos}
+							error={error}
+							todosCount={todosCount}
+							todosPerPage={todosPerPage}
 						/>
 					) : null}
 				</Container>

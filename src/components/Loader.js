@@ -4,13 +4,17 @@ const Loader = () => {
 	return (
 		<Spinner
 			color='blue.500'
-			size="lg"
+			w={14}
+			h={14}
 			speed='0.8s'
 			thickness='3px'
 			emptyColor='gray.400'
-			display='flex'
-			textAlign='center'
-			m='0 auto'
+			m='-1.75rem auto 0 auto'
+			pos='absolute'
+			top='50%'
+			left='50%'
+			zIndex='10'
+			pointerEvents='none'
 		/>
 	);
 }

@@ -14,39 +14,36 @@ import {
 } from '@chakra-ui/icons'
 import { deleteOneTask, patchCompleteTask, patchNameTask } from '../services/axios-instance'
 
-const Todo = ({ setError, todo, todos, getTodos, setCurrentPage }) => {
+const Todo = ({ setError, todo, getTodos }) => {
 
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
 
-	const deleteHandler = async () => {
+	const deleteHandler = async (e) => {
 		try {
+			e.target.disabled = true
 			await deleteOneTask(todo)
-			getTodos()
-			if (todos.length === 1) {
-				setCurrentPage(prev => prev - 1)
-			}
-		} catch (error) {
-			setError('Задача уже удалена!')
-		}
-	}
-
-	const completeHandler = async () => {
-		try {
-			await patchCompleteTask(todo, inputFocus)
-			getTodos()
+			await getTodos()
 		} catch (error) {
 			setError(error.response.data.message)
 		}
 	}
 
-	const editHandler = (e) => {
-		todos.find((item) => {
-			if (item.uuid === todo.uuid) {
-				setReadOnly(false)
-				inputFocus.current.focus()
-			}
-		})
+	const completeHandler = async (e) => {
+		try {
+			e.target.disabled = true
+			await patchCompleteTask(todo, inputFocus)
+			await getTodos()
+			e.target.disabled = false
+		} catch (error) {
+			e.target.disabled = false
+			setError(error.response.data.message)
+		}
+	}
+
+	const editHandler = () => {
+		setReadOnly(false)
+		inputFocus.current.focus()
 	}
 
 	const keydownBlurInput = async (e) => {
@@ -57,17 +54,15 @@ const Todo = ({ setError, todo, todos, getTodos, setCurrentPage }) => {
 		}
 		if (e.target.readOnly === false && e.key === 'Enter') {
 			try {
-				await patchNameTask(todo, inputFocus)
-				await getTodos()
 				setReadOnly(true)
 				e.target.blur()
+				await patchNameTask(todo, inputFocus)
+				await getTodos()
 			} catch (error) {
 				setError(error.response.data.message)
 			}
-
 		}
 	}
-
 
 	return (
 		<ListItem

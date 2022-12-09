@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import {
 	Input,
 	InputGroup,
@@ -13,15 +13,21 @@ import {
 } from '@chakra-ui/icons'
 import { postOneTask } from '../services/axios-instance';
 
-const Form = ({ setError, getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
+const Form = ({ isLoading, setError, getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
 	const ref = useRef(null)
+	const [readOnly, setReadOnly] = useState(false)
+
 	const submitTodoHandler = async (e) => {
 		e.preventDefault()
 		if (ref.current.value.trim().length) {
 			try {
+				setReadOnly(true)
 				await postOneTask(ref)
-				getTodos()
+				await getTodos()
+				setReadOnly(false)
 			} catch (error) {
+				setReadOnly(false)
+				ref.current.value = ''
 				setError(error.response.data.message)
 			}
 			ref.current.value = ''
@@ -38,12 +44,14 @@ const Form = ({ setError, getTodos, setStatus, selectedSort, setSelectedSort, se
 		setCurrentPage(1)
 	}
 	const dateHandler = () => {
-		switch (selectedSort) {
-			case 'asc':
-				setSelectedSort('desc')
-				break;
-			case 'desc':
-				setSelectedSort('asc')
+		if (!isLoading) {
+			switch (selectedSort) {
+				case 'asc':
+					setSelectedSort('desc')
+					break;
+				case 'desc':
+					setSelectedSort('asc')
+			}
 		}
 	}
 
@@ -63,12 +71,14 @@ const Form = ({ setError, getTodos, setStatus, selectedSort, setSelectedSort, se
 					type="text"
 					placeholder="I'm going to..."
 					_focus={{ borderColor: "transparent" }}
+					readOnly={readOnly}
 				/>
 				<InputRightAddon
 					padding="0"
 					margin="0"
 					border="none">
 					<Button
+						disabled={readOnly}
 						borderLeftRadius="0"
 						onClick={submitTodoHandler}
 						color="#ff6f47"
@@ -100,9 +110,9 @@ const Form = ({ setError, getTodos, setStatus, selectedSort, setSelectedSort, se
 					color="#ff6f47"
 					cursor="pointer"
 				>
-					<option value="">All</option>
-					<option value="done">Done</option>
-					<option value="undone">Undone</option>
+					<option disabled={isLoading} value="">All</option>
+					<option disabled={isLoading} value="done">Done</option>
+					<option disabled={isLoading} value="undone">Undone</option>
 				</Select>
 				<Box
 					display="flex"
@@ -118,6 +128,7 @@ const Form = ({ setError, getTodos, setStatus, selectedSort, setSelectedSort, se
 						Sort by date
 					</Text>
 					<Button
+						disabled={isLoading}
 						className={`sort-active ${selectedSort === 'asc' ? 'sort-active-up' : ''}`}
 						px={0}
 						py={0}

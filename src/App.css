@@ -8,6 +8,7 @@ ul {
   padding: 0;
   margin: 0;
 }
+
 body {
   background: linear-gradient(120deg, #f6d365 0%, #f17a59 100%);
   color: white;
@@ -103,7 +104,9 @@ button.sort-active {
   width: 100%;
   font-family: 'Sono', sans-serif;
 }
-
+.todo svg {
+	pointer-events: none;
+}
 .trash-btn,
 .complete-btn,
 .edit-btn,
