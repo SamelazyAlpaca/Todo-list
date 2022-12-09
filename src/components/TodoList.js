@@ -21,15 +21,13 @@ const ToDoList = ({ isLoading, setError, todos, setTodos, getTodos, setCurrentPa
 			>
 				{(todos.map(todo => (
 					<Todo
-						setTodos={setTodos}
 						getTodos={getTodos}
-						todos={todos}
+						setError={setError}
 						todo={todo}
 						key={todo.uuid}
 						userId={todo.userId}
 						dateSort={+new Date(todo.createdAt)}
-						setCurrentPage={setCurrentPage}
-						setError={setError}
+
 					/>
 				)))}
 			</List>

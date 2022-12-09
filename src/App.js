@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import Form from './components/Form';
 import ToDoList from './components/TodoList';
@@ -43,8 +43,15 @@ function App() {
 	}
 
 	useEffect(() => {
+		if (todos.length < 1 && currentPage >= 1) {
+			setCurrentPage(1)
+		}
+	}, [todos.length, todosCount])
+
+	useEffect(() => {
 		getTodos()
 	}, [currentPage, status, selectedSort]);
+
 	return (
 		<>
 			<Center>
@@ -102,6 +109,7 @@ function App() {
 					}
 					{todosCount > todosPerPage && !isLoading ? (
 						<Pagination
+							getTodos={getTodos}
 							currentPage={currentPage}
 							setCurrentPage={setCurrentPage}
 							status={status}

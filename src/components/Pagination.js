@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Button, Flex, Link, Text } from '@chakra-ui/react'
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
@@ -13,13 +13,7 @@ const Pagination = ({ todos, error, todosCount, todosPerPage, currentPage, statu
 		for (let i = 1; i <= Math.ceil(todosCount / todosPerPage); i++) {
 			pageNumbers.push(i)
 		}
-	}, [todos, status, currentPage, error])
-
-	useEffect(() => {
-		if (todos.length < 1) {
-			setCurrentPage(pageNumbers.length)
-		}
-	}, [todosCount])
+	}, [todos, status, currentPage, error, todosCount])
 
 	return (
 		<Flex justify="center" >
