@@ -59,6 +59,7 @@ const Todo = ({ setError, todo, getTodos }) => {
 				await patchNameTask(todo, inputFocus)
 				await getTodos()
 			} catch (error) {
+				inputFocus.current.value = e.target.defaultValue
 				setError(error.response.data.message)
 			}
 		}
