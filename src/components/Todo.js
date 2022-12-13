@@ -32,6 +32,7 @@ const Todo = ({ setError, todo, getTodos }) => {
 	const completeHandler = async (e) => {
 		try {
 			e.target.disabled = true
+
 			await patchCompleteTask(todo, inputFocus)
 			await getTodos()
 			e.target.disabled = false
@@ -55,9 +56,11 @@ const Todo = ({ setError, todo, getTodos }) => {
 		if (e.target.readOnly === false && e.key === 'Enter') {
 			try {
 				setReadOnly(true)
+				if (inputFocus.current.value !== e.target.defaultValue) {
+					await patchNameTask(todo, inputFocus)
+					await getTodos()
+				}
 				e.target.blur()
-				await patchNameTask(todo, inputFocus)
-				await getTodos()
 			} catch (error) {
 				inputFocus.current.value = e.target.defaultValue
 				setError(error.response.data.message)
