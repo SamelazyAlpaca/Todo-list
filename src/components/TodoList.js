@@ -24,7 +24,7 @@ const ToDoList = ({ isLoading, setError, todos, setTodos, getTodos, setCurrentPa
 						getTodos={getTodos}
 						setError={setError}
 						todo={todo}
-						key={todo.uuid}
+						key={todo.id}
 						userId={todo.userId}
 						dateSort={+new Date(todo.createdAt)}
 

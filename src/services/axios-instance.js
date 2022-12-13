@@ -25,7 +25,7 @@ export const postOneTask = (ref) =>
 	})
 
 export const patchNameTask = (todo, inputFocus) =>
-	instance.patch(`/user/tasks/${todo.uuid}`, {
+	instance.patch(`/user/tasks/${todo.id}`, {
 		name: inputFocus.current.value,
 		done: todo.done,
 		createdAt: todo.createdAt,
@@ -34,11 +34,11 @@ export const patchNameTask = (todo, inputFocus) =>
 
 
 export const patchCompleteTask = (todo, inputFocus) =>
-	instance.patch(`/user/tasks/${todo.uuid}`, {
+	instance.patch(`/user/tasks/${todo.id}`, {
 		name: inputFocus.current.value,
 		done: !todo.done,
 		createdAt: todo.createdAt,
 		updatedAt: new Date(),
 	})
 
-export const deleteOneTask = (todo) => instance.delete(`/user/tasks/${todo.uuid}`)
+export const deleteOneTask = (todo) => instance.delete(`/user/tasks/${todo.id}`)
