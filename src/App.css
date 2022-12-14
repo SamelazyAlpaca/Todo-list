@@ -16,7 +16,6 @@ body {
   min-height: 100vh !important;
   background-size: 400%;
   animation: gradient-rotate 5s linear infinite;
-  padding-bottom: 5rem;
 }
 @keyframes gradient-rotate {
   0% {

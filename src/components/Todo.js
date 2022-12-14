@@ -32,7 +32,6 @@ const Todo = ({ setError, todo, getTodos }) => {
 	const completeHandler = async (e) => {
 		try {
 			e.target.disabled = true
-
 			await patchCompleteTask(todo, inputFocus)
 			await getTodos()
 			e.target.disabled = false

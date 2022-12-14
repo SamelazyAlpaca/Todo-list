@@ -16,7 +16,7 @@ const Pagination = ({ todos, error, todosCount, todosPerPage, currentPage, statu
 	}, [todos, status, currentPage, error, todosCount])
 
 	return (
-		<Flex justify="center" >
+		<Flex justify="center" pb={5}>
 			<Button
 				disabled={currentPage === pageNumbers[0]}
 				onClick={prevPage}
