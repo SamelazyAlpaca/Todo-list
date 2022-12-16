@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import React, { MutableRefObject, useRef, useState } from 'react'
 import {
 	Input,
 	InputGroup,
@@ -12,34 +12,36 @@ import {
 	ArrowDownIcon,
 } from '@chakra-ui/icons'
 import { postOneTask } from '../services/axios-instance';
+import { FormType } from '../types/types';
 
-const Form = ({ isLoading, setError, getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }) => {
-	const ref = useRef(null)
+const Form = ({ isLoading, setError, getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }: FormType) => {
+	const ref = useRef<null | HTMLInputElement>(null)
+	// as MutableRefObject<HTMLInputElement>
 	const [readOnly, setReadOnly] = useState(false)
 
-	const submitTodoHandler = async (e) => {
+	const submitTodoHandler = async (e: { preventDefault: () => void; }) => {
 		e.preventDefault()
-		if (ref.current.value.trim().length) {
+		if (ref.current?.value.trim().length) {
 			try {
 				setReadOnly(true)
 				await postOneTask(ref)
 				await getTodos()
 				setReadOnly(false)
-			} catch (error) {
+			} catch (error: any) {
 				setReadOnly(false)
 				ref.current.value = ''
 				setError(error.response.data.message)
 			}
 			ref.current.value = ''
 		} else {
-			ref.current.closest('.form-wrapper').classList.add('input-wrong')
+			ref.current!.closest('.form-wrapper')!.classList.add('input-wrong')
 			setTimeout(() => {
-				ref.current.closest('.form-wrapper').classList.remove('input-wrong')
+				ref!.current!.closest('.form-wrapper')!.classList.remove('input-wrong')
 			}, 2000)
 		}
 	}
 
-	const statusHandler = (e) => {
+	const statusHandler = (e: { target: { value: string; }; }) => {
 		setStatus(e.target.value)
 		setCurrentPage(1)
 	}
@@ -62,7 +64,7 @@ const Form = ({ isLoading, setError, getTodos, setStatus, selectedSort, setSelec
 				width="auto"
 				border="2px solid transparent"
 				borderRadius="0.475rem"
-				positio="relative"
+				position="relative"
 			>
 				<Input
 					width='auto'

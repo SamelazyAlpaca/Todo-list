@@ -13,29 +13,32 @@ import {
 	CloseIcon
 } from '@chakra-ui/icons'
 import { deleteOneTask, patchCompleteTask, patchNameTask } from '../services/axios-instance'
+import { TodoType } from '../types/types'
 
-const Todo = ({ setError, todo, getTodos }) => {
+const Todo = ({ setError, todo, getTodos }: TodoType) => {
+	console.log(todo);
+
 
 	const [readOnly, setReadOnly] = useState(true)
 	const inputFocus = useRef(null)
 
-	const deleteHandler = async (e) => {
+	const deleteHandler = async (e: { target: { disabled: boolean } }) => {
 		try {
 			e.target.disabled = true
 			await deleteOneTask(todo)
 			await getTodos()
-		} catch (error) {
+		} catch (error: any) {
 			setError(error.response.data.message)
 		}
 	}
 
-	const completeHandler = async (e) => {
+	const completeHandler = async (e: { target: { disabled: boolean } }) => {
 		try {
 			e.target.disabled = true
 			await patchCompleteTask(todo, inputFocus)
 			await getTodos()
 			e.target.disabled = false
-		} catch (error) {
+		} catch (error: any) {
 			e.target.disabled = false
 			setError(error.response.data.message)
 		}

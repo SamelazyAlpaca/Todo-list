@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import './App.css';
 import './logout.css';
 import Form from './components/Form';
 import ToDoList from './components/TodoList';
 import Pagination from './components/Pagination';
+import SignInUp from './components/SignInUp';
 import {
 	Container,
 	Center,
@@ -17,18 +18,17 @@ import {
 } from '@chakra-ui/react'
 import { getAllTasks } from './services/axios-instance';
 import { CloseIcon } from '@chakra-ui/icons';
-import SignInUp from './components/SignInUp';
 
-function App() {
-	const [signIn, setSignIn] = useState(false)
-	const [todos, setTodos] = useState([])
-	const [status, setStatus] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
-	const [currentPage, setCurrentPage] = useState(1)
-	const [selectedSort, setSelectedSort] = useState('desc')
-	const [todosCount, setTodosCount] = useState()
-	const [error, setError] = useState('')
-	const todosPerPage = 5
+const App = () => {
+	const [signIn, setSignIn] = useState<boolean>(false)
+	const [todos, setTodos] = useState<string[]>([])
+	const [status, setStatus] = useState<string>('')
+	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [currentPage, setCurrentPage] = useState<number>(1)
+	const [selectedSort, setSelectedSort] = useState<string>('desc')
+	const [todosCount, setTodosCount] = useState<number>(0)
+	const [error, setError] = useState<string>('')
+	const todosPerPage: number = 5
 
 	const getTodos = async () => {
 		try {
@@ -37,7 +37,7 @@ function App() {
 			setTodosCount(data.count)
 			setTodos(data.tasks)
 			setIsLoading(false)
-		} catch (error) {
+		} catch (error: any) {
 			setIsLoading(false)
 			setError(error.response.data.message)
 		}
@@ -87,7 +87,6 @@ function App() {
 						<Container maxW="1200px" width="100%" padding="0 15px" >
 							<header>
 								<Flex
-
 									w="100%"
 									justify="end"
 									pr="5rem"
@@ -107,6 +106,7 @@ function App() {
 										align="center"
 										gap="10px"
 										cursor="pointer"
+									// onClick={setSignIn(true)}
 									>
 										<span></span>
 										<span></span>
@@ -125,13 +125,9 @@ function App() {
 									<Text>
 										Todo List
 									</Text>
-
 								</Heading>
-
 								<Form
-									todos={todos}
 									getTodos={getTodos}
-									setTodos={setTodos}
 									setStatus={setStatus}
 									selectedSort={selectedSort}
 									setSelectedSort={setSelectedSort}
@@ -142,9 +138,7 @@ function App() {
 							</header>
 							<ToDoList
 								todos={todos}
-								setTodos={setTodos}
 								getTodos={getTodos}
-								setCurrentPage={setCurrentPage}
 								setError={setError}
 								isLoading={isLoading}
 							/>

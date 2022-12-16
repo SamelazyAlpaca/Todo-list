@@ -2,8 +2,9 @@ import React from 'react'
 import Todo from './Todo'
 import { Flex, List } from '@chakra-ui/react'
 import Loader from './Loader'
+import { TodolistType } from '../types/types'
 
-const ToDoList = ({ isLoading, setError, todos, setTodos, getTodos, setCurrentPage }) => {
+const ToDoList = ({ isLoading, setError, todos, getTodos }: TodolistType) => {
 	return (
 		<Flex
 			justifyContent="center"
@@ -25,9 +26,6 @@ const ToDoList = ({ isLoading, setError, todos, setTodos, getTodos, setCurrentPa
 						setError={setError}
 						todo={todo}
 						key={todo.id}
-						userId={todo.userId}
-						dateSort={+new Date(todo.createdAt)}
-
 					/>
 				)))}
 			</List>
