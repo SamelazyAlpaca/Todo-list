@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { KeyboardEventHandler, MouseEventHandler, useRef, useState } from 'react'
 import {
 	Box,
 	Button,
@@ -16,55 +16,60 @@ import { deleteOneTask, patchCompleteTask, patchNameTask } from '../services/axi
 import { TodoType } from '../types/types'
 
 const Todo = ({ setError, todo, getTodos }: TodoType) => {
-	console.log(todo);
 
+	const [readOnly, setReadOnly] = useState<boolean>(true)
+	const inputFocus = useRef<HTMLInputElement>(null)
 
-	const [readOnly, setReadOnly] = useState(true)
-	const inputFocus = useRef(null)
-
-	const deleteHandler = async (e: { target: { disabled: boolean } }) => {
+	const deleteHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
+		const completeButton = e.currentTarget
 		try {
-			e.target.disabled = true
+			completeButton.disabled = true
 			await deleteOneTask(todo)
 			await getTodos()
 		} catch (error: any) {
+			if (completeButton.disabled === true) {
+				completeButton.disabled = false
+			}
 			setError(error.response.data.message)
 		}
 	}
 
-	const completeHandler = async (e: { target: { disabled: boolean } }) => {
+	const completeHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
+		const completeButton = e.currentTarget
 		try {
-			e.target.disabled = true
+			completeButton.disabled = true
 			await patchCompleteTask(todo, inputFocus)
 			await getTodos()
-			e.target.disabled = false
+			completeButton.disabled = false
 		} catch (error: any) {
-			e.target.disabled = false
+			console.log(error);
+			completeButton.disabled = false
 			setError(error.response.data.message)
 		}
 	}
 
 	const editHandler = () => {
 		setReadOnly(false)
-		inputFocus.current.focus()
+		inputFocus.current!.focus()
 	}
 
-	const keydownBlurInput = async (e) => {
-		if (e.target.readOnly === false && e.key === 'Escape') {
-			inputFocus.current.value = e.target.defaultValue
+	const keydownBlurInput: KeyboardEventHandler<HTMLInputElement> = async (e) => {
+		const currentInput = inputFocus.current!
+		if (currentInput.readOnly === false && e.key === 'Escape') {
+			inputFocus.current!.value = inputFocus.current!.defaultValue
 			setReadOnly(true)
-			e.target.blur()
+			currentInput.blur()
 		}
-		if (e.target.readOnly === false && e.key === 'Enter') {
+		if (currentInput.readOnly === false && e.key === 'Enter') {
 			try {
 				setReadOnly(true)
-				if (inputFocus.current.value !== e.target.defaultValue) {
+				if (currentInput.value !== currentInput.defaultValue) {
 					await patchNameTask(todo, inputFocus)
 					await getTodos()
 				}
-				e.target.blur()
-			} catch (error) {
-				inputFocus.current.value = e.target.defaultValue
+				currentInput.blur()
+			} catch (error: any) {
+				currentInput.value = currentInput.defaultValue
 				setError(error.response.data.message)
 			}
 		}
@@ -74,7 +79,9 @@ const Todo = ({ setError, todo, getTodos }: TodoType) => {
 		<ListItem
 			borderRadius="0.375rem"
 			className={`todo ${todo.done ? 'todo-completed' : ''}`}>
-			<Box>
+			<Box
+				display="flex"
+			>
 				<Button
 					onClick={editHandler}
 					className='edit-btn'

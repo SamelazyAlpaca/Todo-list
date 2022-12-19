@@ -20,18 +20,31 @@ export type FormType = {
 	selectedSort: string,
 	setSelectedSort: Function,
 	setError: Function,
-	getTodos: Function
+	getTodos: Function,
 }
 
 export type TodolistType = {
 	isLoading: boolean,
 	setError: Function,
-	todos: any[],
+	todos: [],
 	getTodos: Function,
 }
 
 export type TodoType = {
 	setError: Function,
-	todo: any,
-	getTodos: Function
+	todo: TaskType,
+	getTodos: Function,
+}
+export type PaginationType = {
+	todos: [],
+	error: any,
+	todosCount: number,
+	todosPerPage: number,
+	currentPage: number,
+	status: string,
+	setCurrentPage: Function,
+}
+export type SignInUpType = {
+	signIn: boolean,
+	setSignIn: Function,
 }

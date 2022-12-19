@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
 	Input,
 	InputGroup,
@@ -16,7 +16,6 @@ import { FormType } from '../types/types';
 
 const Form = ({ isLoading, setError, getTodos, setStatus, selectedSort, setSelectedSort, setCurrentPage }: FormType) => {
 	const ref = useRef<null | HTMLInputElement>(null)
-	// as MutableRefObject<HTMLInputElement>
 	const [readOnly, setReadOnly] = useState(false)
 
 	const submitTodoHandler = async (e: { preventDefault: () => void; }) => {
@@ -111,10 +110,10 @@ const Form = ({ isLoading, setError, getTodos, setStatus, selectedSort, setSelec
 					w="10rem"
 					color="#ff6f47"
 					cursor="pointer"
+					placeholder="All"
 				>
-					<option disabled={isLoading} value="">All</option>
-					<option disabled={isLoading} value="done">Done</option>
-					<option disabled={isLoading} value="undone">Undone</option>
+					<option value="done">Done</option>
+					<option value="undone">Undone</option>
 				</Select>
 				<Box
 					display="flex"

@@ -22,24 +22,24 @@ export const getAllTasks = (response: ResponseType) =>
 
 export const postOneTask = (ref: MutableRefObject<HTMLInputElement | null>) =>
 	instance.post<TaskType>('/tasks/', {
-		name: ref.current?.value.trim(),
+		name: ref.current!.value.trim(),
 		done: false,
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	})
 
-export const patchNameTask = (todo: TaskType, inputFocus: { current: { value: string; }; }) =>
+export const patchNameTask = (todo: TaskType, inputFocus: MutableRefObject<HTMLInputElement | null>) =>
 	instance.patch<TaskType>(`/tasks/${todo.id}`, {
-		name: inputFocus.current.value,
+		name: inputFocus.current!.value,
 		done: todo.done,
 		createdAt: todo.createdAt,
 		updatedAt: new Date(),
 	})
 
 
-export const patchCompleteTask = (todo: TaskType, inputFocus: { current: { value: string; }; }) =>
+export const patchCompleteTask = (todo: TaskType, inputFocus: MutableRefObject<HTMLInputElement | null>) =>
 	instance.patch<TaskType>(`/tasks/${todo.id}`, {
-		name: inputFocus.current.value,
+		name: inputFocus.current!.value,
 		done: !todo.done,
 		createdAt: todo.createdAt,
 		updatedAt: new Date(),

@@ -25,7 +25,7 @@ const ToDoList = ({ isLoading, setError, todos, getTodos }: TodolistType) => {
 						getTodos={getTodos}
 						setError={setError}
 						todo={todo}
-						key={todo.id}
+						key={todo['id']}
 					/>
 				)))}
 			</List>

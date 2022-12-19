@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
 	Input,
 	Button,
@@ -10,10 +10,10 @@ import {
 import '../signinup.css'
 import logo from '../images/log.svg'
 import register from '../images/register.svg'
-const SignInUp = ({ signIn, setSignIn }) => {
+import { SignInUpType } from '../types/types';
+const SignInUp = ({ signIn, setSignIn }: SignInUpType) => {
 	const ref = useRef(null)
-	const [readOnly, setReadOnly] = useState(false)
-	const [activeForm, setActiveForm] = useState('signIn')
+	const [activeForm, setActiveForm] = useState<string>('signIn')
 
 	const signForm = () => {
 		if (activeForm === 'signIn') {
@@ -23,7 +23,7 @@ const SignInUp = ({ signIn, setSignIn }) => {
 			setActiveForm('signIn')
 		}
 	}
-	const submitForm = (e) => {
+	const submitForm = (e: { preventDefault: () => void; }) => {
 		e.preventDefault()
 		setSignIn(true)
 	}
@@ -77,38 +77,6 @@ const SignInUp = ({ signIn, setSignIn }) => {
 								onClick={submitForm}
 								disabled={(activeForm === 'signUp') ? true : false}
 							/>
-
-							<Text className="social-text">Or Sign in with social platforms</Text>
-							<Flex className="social-media">
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signUp') ? true : false}
-								>
-									<i className="fab fa-facebook-f"></i>
-								</Link>
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signUp') ? true : false}
-								>
-									<i className="fab fa-twitter"></i>
-								</Link>
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signUp') ? true : false}
-								>
-									<i className="fab fa-google"></i>
-								</Link>
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signUp') ? true : false}
-								>
-									<i className="fab fa-linkedin-in"></i>
-								</Link>
-							</Flex>
 						</form>
 
 						<form action="" className="sign-up-form">
@@ -154,37 +122,6 @@ const SignInUp = ({ signIn, setSignIn }) => {
 								onClick={submitForm}
 								disabled={(activeForm === 'signIn') ? true : false}
 							/>
-							<Text className="social-text">Or Sign up with social platforms</Text>
-							<Flex className="social-media">
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signIn') ? true : false}
-								>
-									<i className="fab fa-facebook-f"></i>
-								</Link>
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signIn') ? true : false}
-								>
-									<i className="fab fa-twitter"></i>
-								</Link>
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signIn') ? true : false}
-								>
-									<i className="fab fa-google"></i>
-								</Link>
-								<Link
-									href="#"
-									className="social-icon"
-									disabled={(activeForm === 'signIn') ? true : false}
-								>
-									<i className="fab fa-linkedin-in"></i>
-								</Link>
-							</Flex>
 						</form>
 					</Box>
 				</Box>

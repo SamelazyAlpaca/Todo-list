@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import './logout.css';
 import Form from './components/Form';
@@ -13,7 +13,6 @@ import {
 	AlertIcon,
 	AlertTitle,
 	Text,
-	Box,
 	Flex
 } from '@chakra-ui/react'
 import { getAllTasks } from './services/axios-instance';
@@ -21,7 +20,7 @@ import { CloseIcon } from '@chakra-ui/icons';
 
 const App = () => {
 	const [signIn, setSignIn] = useState<boolean>(false)
-	const [todos, setTodos] = useState<string[]>([])
+	const [todos, setTodos] = useState<[]>([])
 	const [status, setStatus] = useState<string>('')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [currentPage, setCurrentPage] = useState<number>(1)
@@ -29,6 +28,7 @@ const App = () => {
 	const [todosCount, setTodosCount] = useState<number>(0)
 	const [error, setError] = useState<string>('')
 	const todosPerPage: number = 5
+
 
 	const getTodos = async () => {
 		try {
@@ -148,7 +148,6 @@ const App = () => {
 							}
 							{todosCount > todosPerPage && !isLoading ? (
 								<Pagination
-									getTodos={getTodos}
 									currentPage={currentPage}
 									setCurrentPage={setCurrentPage}
 									status={status}
